@@ -41,7 +41,7 @@ this.checkAppium = function() {
             });
           }
         }
-    )
+    );
   }
 
   this.checkRedis = function() {
@@ -61,7 +61,7 @@ this.checkAppium = function() {
           }
         });
       }
-    })
+    });
   }
 
   this.checkAPT = function() {
@@ -79,7 +79,7 @@ this.checkAppium = function() {
           }
         })
       }
-    })
+    });
   }
 
   this.checkXcode = function() {
@@ -90,6 +90,6 @@ this.checkAppium = function() {
       } else {
         console.log(logSymbols.error,'Xcode is not installed, install it manually!!');
       }
-    })
+    });
   }
 }

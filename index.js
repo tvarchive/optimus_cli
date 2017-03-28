@@ -8,6 +8,7 @@ const port = 3000;
 var git = require("nodegit");
 var mkdirp = require('mkdirp');
 var ProgressBar = require('ascii-progress');
+var pjson = require('./package.json');
 
 function createproject(args,callback) {
   var projectfolder = args.project_name;
@@ -59,17 +60,30 @@ function setup(args,callback) {
   commands.checkXcode();
 }
 
+function appVersion(args,callback) {
+  console.log(pjson.version);
+  callback();
+}
+
 optimus
   .command('create project <project_name>', 'Create a new optimus project.')
+  .autocomplete(['checkup','create project <project_name>','optimus -v'])
   .action(createproject);
 
 optimus
   .command('create testfeed <testfeed_name>', 'Create a testfeed for the project')
+  .autocomplete(['checkup','create project <project_name>','optimus -v'])
   .action(createtestfeed);
 
 optimus
   .command('checkup','sets up the optimus environment')
+  .autocomplete(['checkup','create project <project_name>','optimus -v'])
   .action(setup);
+optimus
+  .command('optimus','get the optimus version')
+  .autocomplete(['checkup','create project <project_name>','optimus -v'])
+  .option('-v,--version','Prints version')
+  .action(appVersion);
 
 optimus
   .delimiter('optimus$')
