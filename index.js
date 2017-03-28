@@ -2,6 +2,7 @@
 const optimus = require('vorpal')();
 const http = require('http');
 const cmd=require('node-cmd');
+var Commands = require('./js/commands');
 const hostname = '127.0.0.1';
 const port = 3000;
 var git = require("nodegit");
@@ -50,53 +51,12 @@ function createtestfeed() {
 }
 
 function setup(args,callback) {
-  cmd.get(
-    'java -version',
-    function(data,err) {
-    console.log('Verifying if java is installed');
-    if(!err) {
-      console.log('Found java');
-    } else {
-      console.log('Java is not installed, install it manually');
-    }
-  });
-
-  cmd.get(
-        'appium -v',
-        function(data,err){
-          console.log("Verifying if appium is installed");
-          if(!err) {
-            console.log('Found appium with version : ',data);
-          } else {
-            console.log("Appium is not installed, installing it now..");
-            cmd.get('npm install -g appium',function(data,err) {
-              if(!err) {
-                console.log('Installed appium successfully');
-              } else {
-                console.log('Failed to install appium, install it manually',err);
-              }
-            });
-          }
-        }
-    );
-
-    cmd.get(
-      'redis-cli -v',
-      function(data,err) {
-      console.log("Verifying if redis is installed");
-      if(!err) {
-        console.log('Found Redis with version:',data);
-      } else {
-        console.log("Redis is not installed, installing it now..");
-        cmd.get('brew install redis', function(data,err) {
-          if(!err) {
-            console.log('Installed redis successfully');
-          } else {
-            console.log('Failed to install redis, install it manually',err);
-          }
-        });
-      }
-    });
+  var commands = new Commands();
+  commands.checkJava();
+  commands.checkAppium();
+  commands.checkRedis();
+  commands.checkAPT();
+  commands.checkXcode();
 }
 
 optimus
