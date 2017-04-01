@@ -58,6 +58,7 @@ function setup(args,callback) {
   commands.checkRedis();
   commands.checkAPT();
   commands.checkXcode();
+  callback();
 }
 
 function appVersion(args,callback) {

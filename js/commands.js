@@ -3,16 +3,19 @@ const cmd=require('node-cmd');
 var logSymbols = require('log-symbols');
 
 module.exports = function Commands(){
+  var error;
   this.checkJava= function() {
   cmd.get(
     'java -version',
     function(data,err) {
     console.log(logSymbols.info,'Verifying if java is installed');
+    error = err;
     if(!err) {
       console.log(logSymbols.success,'Java is installed.');
     } else {
       console.log(logSymbols.warning,'Java is not installed, installing it now..');
       cmd.get('brew cask install java',function(data,err) {
+        error = err;
         if(!err) {
           console.log(logSymbols.success,'Installed java successfully');
         } else {
@@ -27,12 +30,14 @@ this.checkAppium = function() {
   cmd.get(
         'appium -v',
         function(data,err){
+          error = err;
           console.log(logSymbols.info,"Verifying if appium is installed");
           if(!err) {
             console.log(logSymbols.success,'Appium is installed.');
           } else {
             console.log(logSymbols.warning,"Appium is not installed, installing it now..");
             cmd.get('npm install -g appium',function(data,err) {
+              error = err;
               if(!err) {
                 console.log(logSymbols.success,'Installed appium successfully');
               } else {
@@ -66,12 +71,14 @@ this.checkAppium = function() {
 
   this.checkAPT = function() {
     cmd.get('adb version', function(data,err) {
+      error = err;
       console.log(logSymbols.info,"Verifying if android platform tools is installed");
       if(!err) {
         console.log(logSymbols.success,'Android platform tools is installed.');
       } else {
         console.log(logSymbols.warning,'Android platform tools is not found, installing it now..');
         cmd.get('brew install android-platform-tools',function(data,err) {
+          error = err;
           if(!err) {
             console.log(logSymbols.success,'Installed, android platform tools successfully.');
           } else {
@@ -84,6 +91,7 @@ this.checkAppium = function() {
 
   this.checkXcode = function() {
     cmd.get('xcodebuild -version',function(data,err) {
+      error = err;
       console.log(logSymbols.info,'Verifying if xcode is installed');
       if(!err) {
         console.log(logSymbols.success,'Found xcode on this machine.');
