@@ -9,6 +9,11 @@ var git = require("nodegit");
 var mkdirp = require('mkdirp');
 var ProgressBar = require('ascii-progress');
 var pjson = require('./package.json');
+var express = require('express');
+const open = require('opn');
+var path = require('path');
+const bodyParser = require('body-parser');
+
 
 function createproject(args,callback) {
   var projectfolder = args.project_name;
@@ -40,15 +45,17 @@ var iv = setInterval(function () {
  }
 }
 
-function createtestfeed() {
-  const server = http.createServer((req, res) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/plain');
-      res.end('Hello World\n');
-    });
-    server.listen(port, hostname, () => {
-      console.log(`Server running at http://${hostname}:${port}/`);
-    });
+function createtestfeed(args,callback) {
+  var app = express();
+  app.set('view engine', 'ejs');
+  app.use(express.static('web'));
+  app.use('/', express.static(path.join(__dirname, 'web')));
+  app.listen(3000, function() { console.log('listening')});
+  open('http://localhost:3000/testfeed.html');
+  app.use(bodyParser.urlencoded({ extended: true }),function(req,res) {
+    console.log(req.body.belongsTo);
+  });
+  callback();
 }
 
 function setup(args,callback) {
