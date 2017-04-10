@@ -9,10 +9,7 @@ var git = require("nodegit");
 var mkdirp = require('mkdirp');
 var ProgressBar = require('ascii-progress');
 var pjson = require('./package.json');
-var express = require('express');
-const open = require('opn');
-var path = require('path');
-const bodyParser = require('body-parser');
+var TestFeed = require('./js/testfeed');
 
 
 function createproject(args,callback) {
@@ -46,15 +43,8 @@ var iv = setInterval(function () {
 }
 
 function createtestfeed(args,callback) {
-  var app = express();
-  app.set('view engine', 'ejs');
-  app.use(express.static('web'));
-  app.use('/', express.static(path.join(__dirname, 'web')));
-  app.listen(3000, function() { console.log('listening')});
-  open('http://localhost:3000/testfeed.html');
-  app.use(bodyParser.urlencoded({ extended: true }),function(req,res) {
-    console.log(req.body.belongsTo);
-  });
+  var testfeed = new TestFeed(args);
+  testfeed.launchTestfeed();
   callback();
 }
 
