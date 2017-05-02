@@ -10,6 +10,7 @@ var mkdirp = require('mkdirp');
 var ProgressBar = require('ascii-progress');
 var pjson = require('./package.json');
 var TestFeed = require('./js/testfeed');
+var del = require('del');
 
 
 function createproject(args,callback) {
@@ -19,6 +20,7 @@ function createproject(args,callback) {
       if (err) console.error(err)
   });
   git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
+    del([projectfolder+"/.git"]);
   console.log("Created project '"+args.project_name+"'");
 }).catch(function (err) {
     console.log(err);
