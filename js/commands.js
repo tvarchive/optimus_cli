@@ -103,6 +103,41 @@ this.checkAppium = function() {
     });
   }
 
+  this.checkRedis = function() {
+    cmd.get(
+      'redis-cli -v',
+      function(data,err) {
+      console.log(logSymbols.info,"Verifying if Redis is installed");
+      if(!err) {
+        console.log(logSymbols.success,'Redis is installed');
+      } else {
+        console.log(logSymbols.warning,"Redis is not installed, installing it now..");
+        switch (os.platform()) {
+          case "darwin": case "linux":
+          cmd.get('brew install redis', function(data,err) {
+            if(!err) {
+              console.log(logSymbols.success,'Installed Redis successfully');
+            } else {
+              console.log(logSymbols.error,'Failed to install Redis, install it manually',err);
+            }
+          });
+
+            break;
+            case "win32":
+            cmd.get('choco install redis', function(data,err) {
+              if(!err) {
+                console.log(logSymbols.success,'Installed Redis successfully');
+              } else {
+                console.log(logSymbols.error,'Failed to install Redis, install it manually',err);
+              }
+            });
+          break;
+        }
+
+      }
+    });
+  }
+
   this.checkAPT = function() {
     cmd.get('adb version', function(data,err) {
       error = err;

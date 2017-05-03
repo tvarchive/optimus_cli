@@ -54,6 +54,7 @@ function setup(args,callback) {
   var commands = new Commands();
   commands.checkJava();
   commands.checkAppium();
+  commands.checkRedis();
   commands.checkRethinkDB();
   commands.checkAPT();
   commands.checkXcode();
