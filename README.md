@@ -14,7 +14,7 @@ To Verify if you system is ready for using Optimus
 
 ```
 $ optimus ⏎
-optimus$ checkup
+optimus$ optimus-doctor
 ```
 To create a new Optimus project.
 
@@ -31,6 +31,6 @@ Commands:
     exit                             Exits application.
     create project <project_name>    Create a new optimus project.
     create testfeed <testfeed_name>  Create a testfeed for the project
-    checkup                          sets up the optimus environment
+    optimus-doctor                          sets up the optimus environment
     optimus -v/--version             get the optimus version
 ```
