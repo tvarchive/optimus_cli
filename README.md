@@ -1,4 +1,5 @@
 # Optimus-cli
+[![Package Quality](http://npm.packagequality.com/badge/optimus-cli.png)](http://packagequality.com/#?package=optimus-cli)
 [![npm version](https://badge.fury.io/js/optimus-cli.svg)](https://badge.fury.io/js/optimus-cli)
 
 A cli for Optimus

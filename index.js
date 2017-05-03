@@ -3,38 +3,55 @@ const optimus = require('vorpal')();
 const http = require('http');
 const cmd=require('node-cmd');
 var Commands = require('./js/commands');
+var Setup = require('./js/setup');
 const hostname = '127.0.0.1';
 const port = 3000;
 var git = require("nodegit");
 var mkdirp = require('mkdirp');
-var ProgressBar = require('ascii-progress');
+var ProgressBar = require('progress');
 var pjson = require('./package.json');
 var TestFeed = require('./js/testfeed');
 var del = require('del');
+var colors = require('colors/safe');
+var Sync = require('sync');
+var Promise = require('promise');
+const async = require('async');
+var inits = require('inits');
 
+inits.options.logTimes=false;
+inits.options.showErrors=false;
+inits.init(function(callback) {
+  new Setup().instDeps();
+  callback();
+});
 
 function createproject(args,callback) {
   var projectfolder = args.project_name;
-  console.log("creating project..");
+  process.stdout.write(colors.magenta("creating project '"+args.project_name+"'.."));
   mkdirp(projectfolder, function (err) {
       if (err) console.error(err)
   });
-  git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
+  var projCreated;
+  var obj = git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
     del([projectfolder+"/.git"]);
-  console.log("Created project '"+args.project_name+"'");
+    projCreated = true;
+    console.log(colors.green("\nCreated project '"+args.project_name+"'"));
 }).catch(function (err) {
     console.log(err);
 });
-
-var bar = new ProgressBar('   creating [:bar] :rate/bps :percent :etas', {
+var bar = new ProgressBar('Estimated time to download :total, time elapsed so far :elapsed', {
     complete: '=',
     incomplete: ' ',
-    width: 200,
+    width: 20,
     total: 20000
   });
 var iv = setInterval(function () {
-  bar.tick();
-  if (bar.completed) {
+  if(projCreated===undefined) {
+  // bar.tick();
+  process.stdout.write(colors.magenta("."));
+
+}
+  if (projCreated!=undefined) {
     clearInterval(iv);
   }
 }, 350);
@@ -45,19 +62,20 @@ var iv = setInterval(function () {
 }
 
 function createtestfeed(args,callback) {
-  var testfeed = new TestFeed(args);
-  testfeed.launchTestfeed();
+  console.log("This is a wip command, look out for further versions");
+  // var testfeed = new TestFeed(args);
+  // testfeed.launchTestfeed();
   callback();
 }
 
 function setup(args,callback) {
-  var commands = new Commands();
-  commands.checkJava();
-  commands.checkAppium();
-  commands.checkRedis();
-  commands.checkRethinkDB();
-  commands.checkAPT();
-  commands.checkXcode();
+    var commands = new Commands();
+    commands.checkJava();
+    commands.checkRedis();
+    commands.checkAppium();
+    commands.checkRethinkDB();
+    commands.checkAPT();
+    commands.checkXcode();
 }
 
 function appVersion(args,callback) {
@@ -67,21 +85,22 @@ function appVersion(args,callback) {
 
 optimus
   .command('create project <project_name>', 'Create a new optimus project.')
-  .autocomplete(['checkup','create project <project_name>','optimus -v'])
+  .autocomplete(['create project <project_name>'])
   .action(createproject);
 
 optimus
   .command('create testfeed <testfeed_name>', 'Create a testfeed for the project')
-  .autocomplete(['checkup','create project <project_name>','optimus -v'])
+  .autocomplete(['create project <project_name>'])
   .action(createtestfeed);
 
 optimus
-  .command('checkup','sets up the optimus environment')
-  .autocomplete(['checkup','create project <project_name>','optimus -v'])
+  .command('optimus-doctor','sets up the optimus environment')
+  .autocomplete(['optimus-doctor','optimus -v'])
   .action(setup);
+
 optimus
   .command('optimus','get the optimus version')
-  .autocomplete(['checkup','create project <project_name>','optimus -v'])
+  .autocomplete(['optimus-doctor','optimus -v'])
   .option('-v,--version','Prints version')
   .action(appVersion);
 

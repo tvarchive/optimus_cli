@@ -2,50 +2,53 @@
 const cmd=require('node-cmd');
 var logSymbols = require('log-symbols');
 var os = require('os');
+var ProgressBar = require('progress');
+var colors = require('colors/safe');
+var Promise = require('promise');
 
 module.exports = function Commands(){
   var error;
   this.checkJava= function() {
-  cmd.get(
-    'java -version',
-    function(data,err) {
-    console.log(logSymbols.info,'Verifying if java is installed');
-    error = err;
-    if(!err) {
-      console.log(logSymbols.success,'Java is installed.');
-    } else {
-      switch (os.platform()) {
-        case "darwin":
-        console.log(logSymbols.warning,'Java is not installed, installing it now..');
-          cmd.get('brew cask install java',function(data,err) {
-          error = err;
-          if(!err) {
-            console.log(logSymbols.success,'Installed java successfully');
-          } else {
-            console.log(logSymbols.error,'Failed to install java, install it manually');
+      cmd.get(
+        'java -version',
+        function(data,err) {
+        console.log(logSymbols.info,'Verifying if java is installed');
+        error = err;
+        if(!err) {
+          console.log(logSymbols.success,'Java is installed.');
+        } else {
+          switch (os.platform()) {
+            case "darwin":
+            console.log(logSymbols.warning,colors.yellow('Java is not installed, installing it now..'));
+              cmd.get('brew cask install java',function(data,err) {
+              error = err;
+              if(!err) {
+                console.log(logSymbols.success,'Installed java successfully');
+              } else {
+                console.log(logSymbols.error,colors.red('Failed to install java, install it manually'));
+              }
+            });
+              break;
+            case 'linux':
+            console.log(logSymbols.error,colors.red('Java is not installed, installing it manually!!'));
+            break;
+            case "win32":
+            console.log(logSymbols.warning,colors.yellow('Java is not installed, installing it now..'));
+              cmd.get('choco install jdk8',function(data,err) {
+              error = err;
+              if(!err) {
+                console.log(logSymbols.success,'Installed java successfully');
+              } else {
+                console.log(logSymbols.error,colors.red('Failed to install java, install it manually'));
+              }
+            });
+              break;
           }
-        });
-          break;
-        case 'linux':
-        console.log(logSymbols.error,'Java is not installed, installing it manually!!');
-        break;
-        case "win32":
-        console.log(logSymbols.warning,'Java is not installed, installing it now..');
-          cmd.get('choco install jdk8',function(data,err) {
-          error = err;
-          if(!err) {
-            console.log(logSymbols.success,'Installed java successfully');
-          } else {
-            console.log(logSymbols.error,'Failed to install java, install it manually');
-          }
-        });
-          break;
-      }
-    }
-  });
+        }
+      });
 }
 
-this.checkAppium = function() {
+this.checkAppium = function() { return new Promise(function(fulfill,reject) {
   cmd.get(
         'appium -v',
         function(data,err){
@@ -54,46 +57,51 @@ this.checkAppium = function() {
           if(!err) {
             console.log(logSymbols.success,'Appium is installed.');
           } else {
-            console.log(logSymbols.warning,"Appium is not installed, installing it now..");
+            console.log(logSymbols.warning,colors.magenta("Appium is not installed, installing it now .."));
+            var appiumInstalled;
             cmd.get('npm install -g appium',function(data,err) {
               error = err;
               if(!err) {
+                appiumInstalled = true;
                 console.log(logSymbols.success,'Installed appium successfully');
               } else {
-                console.log(logSymbols.error,'Failed to install appium, install it manually',err);
+                appiumInstalled = false;
+                console.log(logSymbols.error,colors.red('Failed to install appium, install it manually'),err);
               }
             });
           }
-        }
-    );
-  }
+}) });
+
+}
 
   this.checkRethinkDB = function() {
+    var rethinkInstalled;
     cmd.get(
       'rethinkdb -v',
       function(data,err) {
       console.log(logSymbols.info,"Verifying if RethinkDB is installed");
       if(!err) {
+        rethinkInstalled = true;
         console.log(logSymbols.success,'RethinkDB is installed');
       } else {
-        console.log(logSymbols.warning,"RethinkDB is not installed, installing it now..");
+        rethinkInstalled=false;
+        console.log(logSymbols.warning,colors.cyan("RethinkDB is not installed, installing it now.."));
         switch (os.platform()) {
           case "darwin": case "linux":
           cmd.get('brew install rethinkdb', function(data,err) {
             if(!err) {
               console.log(logSymbols.success,'Installed RethinkDB successfully');
             } else {
-              console.log(logSymbols.error,'Failed to install RethinkDB, install it manually',err);
+              console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually'),err);
             }
           });
-
             break;
             case "win32":
             cmd.get('choco install rethinkdb', function(data,err) {
               if(!err) {
                 console.log(logSymbols.success,'Installed RethinkDB successfully');
               } else {
-                console.log(logSymbols.error,'Failed to install RethinkDB, install it manually',err);
+                console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually'),err);
               }
             });
           break;
@@ -104,38 +112,41 @@ this.checkAppium = function() {
   }
 
   this.checkRedis = function() {
-    cmd.get(
-      'redis-cli -v',
-      function(data,err) {
-      console.log(logSymbols.info,"Verifying if Redis is installed");
-      if(!err) {
-        console.log(logSymbols.success,'Redis is installed');
-      } else {
-        console.log(logSymbols.warning,"Redis is not installed, installing it now..");
-        switch (os.platform()) {
-          case "darwin": case "linux":
-          cmd.get('brew install redis', function(data,err) {
-            if(!err) {
-              console.log(logSymbols.success,'Installed Redis successfully');
-            } else {
-              console.log(logSymbols.error,'Failed to install Redis, install it manually',err);
-            }
-          });
-
-            break;
-            case "win32":
-            cmd.get('choco install redis', function(data,err) {
+    return new Promise(function(fulfill,reject){
+      cmd.get(
+        'redis-cli -v',
+        function(data,err) {
+        console.log(logSymbols.info,"Verifying if Redis is installed");
+        if(!err) {
+          console.log(logSymbols.success,'Redis is installed');
+        } else {
+          console.log(logSymbols.warning,colors.gray("Redis is not installed, installing it now.."));
+          switch (os.platform()) {
+            case "darwin": case "linux":
+            cmd.get('brew install redis', function(data,err) {
               if(!err) {
                 console.log(logSymbols.success,'Installed Redis successfully');
               } else {
-                console.log(logSymbols.error,'Failed to install Redis, install it manually',err);
+                console.log(logSymbols.error,colors.red('Failed to install Redis, install it manually'),err);
               }
             });
-          break;
-        }
 
-      }
-    });
+              break;
+              case "win32":
+              cmd.get('choco install redis', function(data,err) {
+                if(!err) {
+                  console.log(logSymbols.success,'Installed Redis successfully');
+                } else {
+                  console.log(logSymbols.error,colors.red('Failed to install Redis, install it manually'),err);
+                }
+              });
+            break;
+          }
+
+        }
+      });
+    })
+
   }
 
   this.checkAPT = function() {
@@ -145,7 +156,7 @@ this.checkAppium = function() {
       if(!err) {
         console.log(logSymbols.success,'Android platform tools is installed.');
       } else {
-        console.log(logSymbols.warning,'Android platform tools is not found, installing it now..');
+        console.log(logSymbols.warning,colors.grey('Android platform tools is not found, installing it now..'));
         switch (os.platform()) {
           case "darwin":case "linux":
           cmd.get('brew install android-platform-tools',function(data,err) {
@@ -153,7 +164,7 @@ this.checkAppium = function() {
             if(!err) {
               console.log(logSymbols.success,'Installed, android platform tools successfully.');
             } else {
-              console.log(logSymbols.error,'Failed to install android platform tools, install it manually');
+              console.log(logSymbols.error,colors.red('Failed to install android platform tools, install it manually'));
             }
           })
             break;
@@ -163,7 +174,7 @@ this.checkAppium = function() {
               if(!err) {
                 console.log(logSymbols.success,'Installed, android platform tools successfully.');
               } else {
-                console.log(logSymbols.error,'Failed to install android platform tools, install it manually');
+                console.log(logSymbols.error,colors.red('Failed to install android platform tools, install it manually'));
               }
             })
               break;
@@ -183,7 +194,7 @@ this.checkAppium = function() {
         if(!err) {
           console.log(logSymbols.success,'Found xcode on this machine.');
         } else {
-          console.log(logSymbols.error,'Xcode is not installed, install it manually!!');
+          console.log(logSymbols.error,colors.red('Xcode is not installed, install it manually!!'));
         }
       });
         break;
