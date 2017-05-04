@@ -94,14 +94,13 @@ optimus
   .action(createtestfeed);
 
 optimus
-  .command('optimus-doctor','sets up the optimus environment')
-  .autocomplete(['optimus-doctor','optimus -v'])
+  .command('doctor','sets up the optimus environment')
+  .autocomplete(['doctor'])
   .action(setup);
 
 optimus
-  .command('optimus','get the optimus version')
-  .autocomplete(['optimus-doctor','optimus -v'])
-  .option('-v,--version','Prints version')
+  .command('version','get the optimus version')
+  .autocomplete(['version'])
   .action(appVersion);
 
 optimus

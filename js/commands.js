@@ -92,7 +92,7 @@ this.checkAppium = function() { return new Promise(function(fulfill,reject) {
             if(!err) {
               console.log(logSymbols.success,'Installed RethinkDB successfully');
             } else {
-              console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually'),err);
+              console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually from "https://rethinkdb.com/docs/install/ubuntu/"'),err);
             }
           });
             break;
