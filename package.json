@@ -1,6 +1,6 @@
 {
   "name": "optimus-cli",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "CLI for Optimus project",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
   "author": "TestVagrant",
   "license": "MIT",
   "dependencies": {
+    "angular-clipboard": "^1.5.0",
     "ascii-progress": "^1.0.5",
     "async": "^2.4.0",
     "body-parser": "^1.17.1",
@@ -29,6 +30,7 @@
     "inits": "^1.6.0",
     "log-symbols": "^1.0.2",
     "mkdirp": "^0.5.1",
+    "ngclipboard": "^1.1.1",
     "node-cmd": "^2.0.0",
     "nodegit": "^0.18.0",
     "opn": "^4.0.2",

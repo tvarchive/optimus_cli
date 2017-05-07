@@ -17,6 +17,10 @@ var Sync = require('sync');
 var Promise = require('promise');
 const async = require('async');
 var inits = require('inits');
+var express = require('express');
+var app = express();
+var open = require('opn');
+var path = require('path');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
@@ -62,7 +66,13 @@ var iv = setInterval(function () {
 }
 
 function createtestfeed(args,callback) {
-  console.log("This is a wip command, look out for further versions");
+
+  app.use(express.static("web"));
+  // app.get("/",function(req,res) {
+  //   res.send(path.join(__dirname+"/web/testfeed.html"));
+  // })
+  app.listen(3000);
+  open('http://localhost:3000/testfeed.html');
   // var testfeed = new TestFeed(args);
   // testfeed.launchTestfeed();
   callback();

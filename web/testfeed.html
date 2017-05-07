@@ -1,72 +1,201 @@
-<div class="container">
+<!doctype html>
+<html ng-app="testfeedApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+    <script src="/deps/ngclipboard.js"></script>
+    <script type='text/javascript' src="app.js"></script>
+    <script src="/controllers/formcontroller.js"></script>
+    <style>
+    html {
+      background: #43cea2;  /* fallback for old browsers */
+      background: -webkit-linear-gradient(to right, #185a9d, #43cea2);  /* Chrome 10-25, Safari 5.1-6 */
+      background: linear-gradient(to left, #185a9d, #43cea2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      font-family: "Goudy Bookletter 1911", sans-serif;
+      color: #53346D;
+    }
+    .testfeedsection {
+      height: 100vh;
+      /*background-color: #43C6AC;*/
+}
 
-    <form class="well form-horizontal" action=" " method="post"  id="contact_form">
-<fieldset>
+      .input {
+        width: 370px;
+        height: 900px;
+        margin-right: 10px;
+        float: left;
+        border-right: solid;
+        border-color: #FFFFFF;
+        border-width: 1px;
+      }
+    .output {
+        position: relative;
+        float: left;
+        height:100vh;
+        top:-7px;
+        width:880px;
+        margin-left: 0px;
+        border-left: solid;
+        left:-11px;
+        border-color: #FFFFFF;
+        border-width: 1px;
+    }
 
-<!-- Form Name -->
-<legend>Optimus Test Feed</legend>
 
-<!-- Text input-->
+    #testfeedTitle {
+      position: relative;
+      left:11px;
+      top:10px;
+      color: #182848;
+      font-family:Arial;
+      text-align: center;
+    }
 
-<div class="form-group">
-  <label class="col-md-4 control-label">Name</label>
-  <div class="col-md-4 inputGroupContainer">
-  <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input  name="name" placeholder="Testfeed name" class="form-control"  type="text">
+     pre {
+       font-size: 1.6em;
+       color:#DBD5A4;
+     }
+
+
+
+         #copyButton {
+    	background-color:#d53369;
+    	/*-moz-border-radius:18px;
+    	-webkit-border-radius:18px;*/
+      position: relative;
+      left: 310px;
+      top:-5px;
+    	border-radius:18px;
+    	border:1px solid #d53369;
+    	display:inline-block;
+    	cursor:pointer;
+    	color:#ffffff;
+    	font-family:Arial;
+    	font-size:10px;
+    	padding:6px 11px;
+    	text-decoration:none;
+    	text-shadow:0px 1px 0px #d53369;
+    }
+
+    #resetButton {
+    background-color:#859398;
+    /*-moz-border-radius:18px;
+    -webkit-border-radius:18px;*/
+    position: relative;
+    left: 320px;
+    top:-5px;
+    border-radius:18px;
+    border:1px solid #859398;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:10px;
+    padding:6px 11px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #859398;
+    }
+
+    hr {
+      background-color: pink !important;
+      color: pink !important;
+    }
+
+
+.underline {
+  top:200px;
+}
+    </style>
+  </head>
+  <body ng-controller="TestFeedDisplay">
+    <section class="testfeedsection">
+      <div class="input" ng-model="testfeedForm">
+      <form novalidate class="simple-form">
+        <h4 id="testfeedTitle">Test Feed Details</h4>
+        <hr>
+        <label>Belongs To <input type="text" ng-model="testfeed.belongsTo"></label><br/>
+        <label>Native App</label>
+    <label><input type="radio" name="response" data-ng-model="testfeed.nativeApp" data-ng-value="true" ng-click="uncheck($event)"/>yes</label> <input type="radio" name="response" data-ng-model="testfeed.nativeApp" data-ng-value="false" ng-click="uncheck($event)"/>no</label><br/>
+    <label>Runs On </label>
+    <select name="singleSelect" id="singleSelect" ng-model="testfeed.runsOn">
+      <option value="any">any</option>
+      <option value="emulator">emulator</option>
+      <option value="simulator">simulator</option>
+      <option value="device">device</option>
+    </select><br>
+    <label>Application Folder Name <input type="text" ng-model="testfeed.appDir"></label><br />
+    <h5>Optimus Desired Capabilities</h5>
+    <hr />
+    <h5>Appium Server Capabilities</h6>
+    <hr />
+    <label>App Name <input type="text" ng-model="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.app"></label><br/>
+    <label>Platform Type </label>
+    <select name="platformType" id="platformType" ng-model="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform">
+      <option value="android">Android</option>
+      <option value="ios">Ios</option>
+    </select><br>
+
+    <div id="androidOnlyCapabilities" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'android'">
+      <hr />
+      <h5>Android Only Capabilities</h5>
+      <hr />
+      <label>App Activity     <input type="text" ng-model="testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appActivity"></label><br/>
+      <p>
+
+      </p>
+      <label>App Package <input type="text" ng-model="testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appPackage"></label><br/>
     </div>
+
+  <div id="iosOnlyCapabilities" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'ios'">
+    <hr />
+    <h5>Ios Only Capabilities</h5>
+    <hr />
+    <label>App Activity     <input type="text" ng-model="testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appActivity"></label><br/>
+    <p>
+
+    </p>
+    <label>App Package <input type="text" ng-model="testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appPackage"></label><br/>
   </div>
-</div>
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label" >Native App</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-  <input type="checkbox" name="nativeApp" class="form-control" type="text" checked>My app is native<br>
-    </div>
-  </div>
-</div>
-
-<!-- Text input-->
-       <div class="form-group">
-  <label class="col-md-4 control-label">Belongs To</label>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-  <input name="belongsTo" placeholder="I want a driver for" class="form-control"  type="text">
-    </div>
-  </div>
-</div>
-
-
-<!-- Text input-->
-
-<div class="form-group">
-  <label class="col-md-4 control-label">Runs On</label></br>
-    <div class="col-md-4 inputGroupContainer">
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-    <select name="runsOn" class="form-control selectpicker">
-      <option value=" " >My application runs on</option>
-      <option>Any</option>
-      <option>Device</option>
-      <option >Emulator</option>
-      <option >Simulator</option>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <label class="col-md-4 control-label"></label>
-  <div class="col-md-4">
-    <button type="submit" class="btn btn-warning" >Send<span class="glyphicon glyphicon-send"></span></button>
-  </div>
-</div>
-
-</fieldset>
 </form>
 </div>
-    </div><!-- /.container -->
+  <div class="output">
+    <h4 id="testfeedTitle">  Your Test Feed <button id="copyButton" ngclipboard data-clipboard-target="#testfeedData">Copy</button><button id="resetButton" ng-click="reset()">Reset</button></h4>
+    <hr />
+  <pre id="testfeedData">
+    {
+        "executionDetails": {
+          "appium_js_path": "/usr/local/bin/appium",
+          "appium_node_path": "/usr/local/bin/node"
+         },
+         "testFeed":[
+         {
+           <label>"belongsTo":{{testfeed.belongsTo | json : 4}},</label>
+           <label>"nativeApp":{{testfeed.nativeApp | json : 4}},</label>
+           <label>"runsOn":{{testfeed.runsOn | json : 4}},</label>
+           <label>"appDir":{{testfeed.appDir | json : 4}},</label>
+           <label>"optimusDesiredCapabilities": {</label>
+             <label>"appiumServerCapabilities":{</label>
+                <label>"app":{{testfeed.optimusDesiredCapabilities.appiumServerCapabilities.app | json : 4}},</label>
+                <label>"platformName":{{testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform | json : 4}}</label>
+             <label> },</label>
+             <div id="platform" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'android'">
+               <label>"androidOnlyCapabilities": {</label>
+                 <label>"appActivity":{{testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appActivity | json : 4}},</label>
+                 <label>"appPackage":{{testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appPackage | json : 4}}</label>
+               <label> }</label>
+             </div>
+             <div id="platform" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'ios'">
+               <label>"iosOnlyCapabilities": {</label>
+                 <label>"appActivity":{{testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appActivity | json : 4}},</label>
+                 <label>"appPackage":{{testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appPackage | json : 4}}</label>
+               <label> }</label>
+             </div>
+              }
+           }
+         ]
+    }
+  </pre>
+</div>
+    </section>
+  </body>
+</html>
