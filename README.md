@@ -25,13 +25,21 @@ optimus$ create project <project_name>
 ```
 Note: Project name is mandatory.
 
+To create a new test feed
+
+```
+$ optimus ⏎
+optimus$ create testfeed
+```
+
+
 ## Available commands
 ```
 Commands:
     help [command...]                Provides help for a given command.
     exit                             Exits application.
     create project <project_name>    Create a new optimus project.
-    create testfeed <testfeed_name>  Create a testfeed for the project
+    create testfeed                  Create a testfeed for the project
     doctor                           Sets up the optimus environment
     version                          Get the optimus version
 ```

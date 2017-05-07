@@ -66,15 +66,9 @@ var iv = setInterval(function () {
 }
 
 function createtestfeed(args,callback) {
-
   app.use(express.static("web"));
-  // app.get("/",function(req,res) {
-  //   res.send(path.join(__dirname+"/web/testfeed.html"));
-  // })
   app.listen(3000);
   open('http://localhost:3000/testfeed.html');
-  // var testfeed = new TestFeed(args);
-  // testfeed.launchTestfeed();
   callback();
 }
 
@@ -95,11 +89,11 @@ function appVersion(args,callback) {
 
 optimus
   .command('create project <project_name>', 'Create a new optimus project.')
-  .autocomplete(['create project <project_name>'])
+  .autocomplete(['create project <project_name>','create testfeed'])
   .action(createproject);
 
 optimus
-  .command('create testfeed <testfeed_name>', 'Create a testfeed for the project')
+  .command('create testfeed', 'Create a testfeed for the project')
   .autocomplete(['create project <project_name>'])
   .action(createtestfeed);
 
