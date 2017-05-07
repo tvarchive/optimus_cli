@@ -18,7 +18,6 @@ var Promise = require('promise');
 const async = require('async');
 var inits = require('inits');
 var express = require('express');
-var app = express();
 var open = require('opn');
 var path = require('path');
 
@@ -66,7 +65,8 @@ var iv = setInterval(function () {
 }
 
 function createtestfeed(args,callback) {
-  app.use(express.static("web"));
+  var app = express();
+  app.use(express.static(path.join(__dirname, 'web')))
   app.listen(3000);
   open('http://localhost:3000/testfeed.html');
   callback();
