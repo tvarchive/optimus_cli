@@ -67,6 +67,7 @@ var iv = setInterval(function () {
 function createtestfeed(args,callback) {
   var app = express();
   app.use(express.static(path.join(__dirname, 'web')))
+  // app.use(express.static('web'))
   app.listen(3000);
   open('http://localhost:3000/testfeed.html');
   callback();
@@ -77,9 +78,10 @@ function setup(args,callback) {
     commands.checkJava();
     commands.checkRedis();
     commands.checkAppium();
-    commands.checkRethinkDB();
+    // commands.checkRethinkDB();
     commands.checkAPT();
     commands.checkXcode();
+    commands.checkGradle();
 }
 
 function appVersion(args,callback) {

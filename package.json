@@ -1,6 +1,6 @@
 {
   "name": "optimus-cli",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "CLI for Optimus project",
   "main": "index.js",
   "scripts": {

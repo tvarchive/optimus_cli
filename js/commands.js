@@ -203,4 +203,42 @@ this.checkAppium = function() { return new Promise(function(fulfill,reject) {
       break;
     }
   }
+
+  this.checkGradle = function() {
+    cmd.get('gradle -v', function(data,err) {
+      error = err;
+      console.log(logSymbols.info,"Verifying if gradle is installed");
+      if(!err) {
+        console.log(logSymbols.success,'Gradle is installed.');
+      } else {
+        console.log(logSymbols.warning,colors.grey('Gradle is not found, installing it now..'));
+        switch (os.platform()) {
+          case "darwin":case "linux":
+          cmd.get('brew install gradle',function(data,err) {
+            error = err;
+            if(!err) {
+              console.log(logSymbols.success,'Installed gradle successfully.');
+            } else {
+              console.log(logSymbols.error,colors.red('Failed to install gradle, install it manually'));
+            }
+          })
+            break;
+            case "win32":
+            cmd.get('choco install gradle',function(data,err) {
+              error = err;
+              if(!err) {
+                console.log(logSymbols.success,'Installed gradle successfully.');
+              } else {
+                console.log(logSymbols.error,colors.red('Failed to install gradle, install it manually'));
+              }
+            })
+              break;
+          default:
+
+        }
+      }
+    });
+  }
+
+
 }
