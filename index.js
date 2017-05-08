@@ -37,6 +37,7 @@ function createproject(args,callback) {
   var projCreated;
   var obj = git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
     del([projectfolder+"/.git"]);
+    del([projectfolder+"/docs"]);
     projCreated = true;
     console.log(colors.green("\nCreated project '"+args.project_name+"'"));
 }).catch(function (err) {
