@@ -193,6 +193,22 @@ this.checkAppium = function() { return new Promise(function(fulfill,reject) {
         console.log(logSymbols.info,'Verifying if xcode is installed');
         if(!err) {
           console.log(logSymbols.success,'Found xcode on this machine.');
+          console.log(logSymbols.info,"Checking if FBSimctl is installed");
+          cmd.get('fbsimctl list',function(data,err) {
+            if(!err) {
+              console.log(logSymbols.success,'FBSimctl is installed');
+            } else {
+              console.log(logSymbols.warning, 'FBSimctl is not installed, installing it now');
+              cmd.get('brew install fbsimctl',function(data,err) {
+                if(!err) {
+                  console.log(logSymbols.success,'Installed FBSimctl Successfully');
+                } else {
+                  console.log(logSymbols.error, 'Failed to install FBSimctl, install it manually');
+                }
+              });
+            }
+          })
+
         } else {
           console.log(logSymbols.error,colors.red('Xcode is not installed, install it manually!!'));
         }
@@ -203,6 +219,8 @@ this.checkAppium = function() { return new Promise(function(fulfill,reject) {
       break;
     }
   }
+
+
 
   this.checkGradle = function() {
     cmd.get('gradle -v', function(data,err) {
