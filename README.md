@@ -14,32 +14,35 @@ npm install -g optimus-cli
 To Verify if you system is ready for using Optimus
 
 ```
-$ optimus ⏎
-optimus$ doctor
+$ optimus doctor
+```
+
+To Install missing dependencies
+
+```
+$ optimus setup
 ```
 To create a new Optimus project.
 
 ```
-$ optimus ⏎
-optimus$ create project <project_name>
+$ optimus new <project_name>
 ```
 Note: Project name is mandatory.
 
 To create a new test feed
 
 ```
-$ optimus ⏎
-optimus$ create testfeed
+$ optimus testfeed
 ```
 
 
 ## Available commands
 ```
 Commands:
-    help [command...]                Provides help for a given command.
-    exit                             Exits application.
-    create project <project_name>    Create a new optimus project.
-    create testfeed                  Create a testfeed for the project
-    doctor                           Sets up the optimus environment
-    version                          Get the optimus version
+
+    new <project_name>  creates a new optimus project
+    testfeed            Create a testfeed for the project
+    doctor              verifies the workspace for dependencies
+    setup               sets up the optimus environment
+    version             get the optimus version
 ```

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const optimus = require('vorpal')();
+var program = require('commander');
 const http = require('http');
 const cmd=require('node-cmd');
 var Commands = require('./js/commands');
@@ -13,13 +13,11 @@ var pjson = require('./package.json');
 var TestFeed = require('./js/testfeed');
 var del = require('del');
 var colors = require('colors/safe');
-var Sync = require('sync');
-var Promise = require('promise');
-const async = require('async');
 var inits = require('inits');
 var express = require('express');
 var open = require('opn');
 var path = require('path');
+var fs = require('fs');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
@@ -29,40 +27,52 @@ inits.init(function(callback) {
 });
 
 function createproject(args,callback) {
-  var projectfolder = args.project_name;
-  process.stdout.write(colors.magenta("creating project '"+args.project_name+"'.."));
-  mkdirp(projectfolder, function (err) {
-      if (err) console.error(err)
-  });
-  var projCreated;
-  var obj = git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
-    del([projectfolder+"/.git"]);
-    del([projectfolder+"/docs"]);
-    projCreated = true;
-    console.log(colors.green("\nCreated project '"+args.project_name+"'"));
-}).catch(function (err) {
-    console.log(err);
-});
-var bar = new ProgressBar('Estimated time to download :total, time elapsed so far :elapsed', {
-    complete: '=',
-    incomplete: ' ',
-    width: 20,
-    total: 20000
-  });
-var iv = setInterval(function () {
-  if(projCreated===undefined) {
-  // bar.tick();
-  process.stdout.write(colors.magenta("."));
-
-}
-  if (projCreated!=undefined) {
-    clearInterval(iv);
+  var projectfolder;
+  if(args.includes(" ")) {
+    projectfolder = args.replace(" ","");
+  } else {
+   projectfolder = args;
   }
-}, 350);
+  fs.stat(projectfolder, function(err,callback){
+    if(err) {
+      process.stdout.write(colors.magenta("creating project '"+projectfolder+"'.."));
+      mkdirp(projectfolder, function (err) {
+          if (err) console.error(err)
+      });
+      var projCreated;
+      var obj = git.Clone("https://github.com/testvagrant/optimusTemplate.git",projectfolder,{}).then(function (repo) {
+        del([projectfolder+"/.git"]);
+        del([projectfolder+"/docs"]);
+        projCreated = true;
+        console.log(colors.green("\nCreated project '"+projectfolder+"'"));
+    }).catch(function (err) {
+        console.log(err);
+    });
+    var bar = new ProgressBar('Estimated time to download :total, time elapsed so far :elapsed', {
+        complete: '=',
+        incomplete: ' ',
+        width: 20,
+        total: 20000
+      });
+    var iv = setInterval(function () {
+      if(projCreated===undefined) {
+      // bar.tick();
+      process.stdout.write(colors.magenta("."));
 
- function progress() {
-   iv;
- }
+    }
+      if (projCreated!=undefined) {
+        clearInterval(iv);
+      }
+    }, 350);
+
+     function progress() {
+       iv;
+     }
+   } else {
+     console.log(colors.red('Error: Project '+ projectfolder+' is already present in this directory. Create project with a different name.'));
+   }
+  });
+
 }
 
 function createtestfeed(args,callback) {
@@ -71,45 +81,61 @@ function createtestfeed(args,callback) {
   // app.use(express.static('web'))
   app.listen(3000);
   open('http://localhost:3000/testfeed.html');
-  callback();
+}
+
+function doctor(args,callback) {
+    var commands = new Commands();
+    commands.verifyJava();
+    commands.verifyRedis();
+    commands.verifyAppium();
+    // commands.verifyRethinkDB();
+    commands.verifyAPT();
+    commands.verifyXcode();
+    commands.verifyGradle();
 }
 
 function setup(args,callback) {
     var commands = new Commands();
-    commands.checkJava();
-    commands.checkRedis();
-    commands.checkAppium();
-    // commands.checkRethinkDB();
-    commands.checkAPT();
-    commands.checkXcode();
-    commands.checkGradle();
+    commands.installJava();
+    commands.installRedis();
+    commands.installAppium();
+    // commands.installRethinkDB();
+    commands.installAPT();
+    commands.installFBSimctl();
+    commands.installGradle();
 }
+
+
+
 
 function appVersion(args,callback) {
   console.log(pjson.version);
-  callback();
 }
 
-optimus
-  .command('create project <project_name>', 'Create a new optimus project.')
-  .autocomplete(['create project <project_name>','create testfeed'])
+program
+  .command('new <project_name>')
+  .description('creates a new optimus project')
   .action(createproject);
 
-optimus
-  .command('create testfeed', 'Create a testfeed for the project')
-  .autocomplete(['create project <project_name>'])
-  .action(createtestfeed);
 
-optimus
-  .command('doctor','sets up the optimus environment')
-  .autocomplete(['doctor'])
-  .action(setup);
+  program
+    .command('testfeed')
+    .description('Create a testfeed for the project')
+    .action(createtestfeed);
 
-optimus
-  .command('version','get the optimus version')
-  .autocomplete(['version'])
+  program
+    .command('doctor')
+    .description('verifies the workspace for dependencies')
+    .action(doctor);
+
+    program
+      .command('setup')
+      .description('sets up the optimus environment')
+      .action(setup);
+
+program
+  .command('version')
+  .description('get the optimus version')
   .action(appVersion);
 
-optimus
-  .delimiter('optimus$')
-  .show();
+program.parse(process.argv);
