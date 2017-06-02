@@ -20,6 +20,7 @@ module.exports = function Commands(){
       }
     });
   }
+  
   this.installJava= function() {
       cmd.get(
         'java -version',

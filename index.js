@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 var program = require('commander');
 const http = require('http');
-const cmd=require('node-cmd');
 var Commands = require('./js/commands');
 var Setup = require('./js/setup');
 const hostname = '127.0.0.1';
@@ -78,7 +77,6 @@ function createproject(args,callback) {
 function createtestfeed(args,callback) {
   var app = express();
   app.use(express.static(path.join(__dirname, 'web')))
-  // app.use(express.static('web'))
   app.listen(3000);
   open('http://localhost:3000/testfeed.html');
 }
@@ -134,7 +132,7 @@ program
       .action(setup);
 
 program
-  .command('version')
+  .option('-v','--version',appVersion)
   .description('get the optimus version')
   .action(appVersion);
 

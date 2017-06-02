@@ -64,6 +64,25 @@ html {
   font-family:Arial;
   font-size:10px;
   padding:6px 11px;
+  text-decoration:inherit;
+  text-shadow:0px 1px 0px #d53369;
+}
+
+#addCapability {
+  background-color:#d53369;
+  /*-moz-border-radius:18px;
+  -webkit-border-radius:18px;*/
+  position: relative;
+  top:5px;
+  left: 5px;
+  border-radius:18px;
+  border:1px solid #d53369;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:10px;
+  padding:6px 11px;
   text-decoration:none;
   text-shadow:0px 1px 0px #d53369;
 }
@@ -95,4 +114,18 @@ hr {
 
 .underline {
 top:200px;
+}
+
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.table-scroll tbody {
+    max-height: 250px;
+    overflow-y: auto;
+    display: block;
+    width: 100%;
+    table-layout: fixed;
 }

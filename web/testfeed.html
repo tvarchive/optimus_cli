@@ -3,9 +3,14 @@
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+    <script type=”text/javascript” src=”bower_components/ng-device-detector/ng-device-detector.min.js”></script>
+    <script type=”text/javascript” src=”bower_components/re-tree/re-tree.min.js”></script>
     <script src="/deps/ngclipboard.js"></script>
     <script type='text/javascript' src="app.js"></script>
     <script src="/controllers/formcontroller.js"></script>
+    <script src="/controllers/androidCapabilitiesController.js"></script>
+    <script src="/controllers/iosCapabilitiesController.js"></script>
+      <script src="/controllers/appiumCapabilitiesController.js"></script>
     <link rel="stylesheet" href="/deps/optimus.css">
   </head>
   <body ng-controller="TestFeedDisplay">
@@ -29,33 +34,126 @@
     <hr />
     <h5>Appium Server Capabilities</h6>
     <hr />
-    <label>App Name <input type="text" ng-model="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.app"></label><br/>
+    <label>App Name <input type="text" ng-model="appiumCaps['app']"></label><br/>
     <label>Platform Type </label>
-    <select name="platformType" id="platformType" ng-model="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform">
+    <select name="platformType" id="platformType" ng-model="appiumCaps['platform']">
       <option value="android">Android</option>
       <option value="ios">Ios</option>
-    </select><br>
+    </select>
+    <br>
 
-    <div id="androidOnlyCapabilities" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'android'">
+    <div id="otherAppiumCapabilities">
       <hr />
-      <h5>Android Only Capabilities</h5>
+      <h5>Other Appium Capabilities</h5>
       <hr />
-      <label>App Activity     <input type="text" ng-model="testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appActivity"></label><br/>
-      <p>
-
-      </p>
-      <label>App Package <input type="text" ng-model="testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appPackage"></label><br/>
+      <div ng-controller="AppiumCapabilitiesController">
+      <table class="table-scroll">
+        <thead>
+            <tr>
+              <th>
+                Capability
+              </th>
+              <th>
+                Value
+              </th>
+            </tr>
+        </thead>
+        <tbody>
+          <div class="tablescroll">
+            <tr ng-repeat="appiumCapability in appiumCapabilities">
+              <td>
+                <select ng-init="appiumCapability.option=appiumCapability.capability" ng-disabled='caps[appiumCapability.option]' ng-model="appiumCapability.option" ng-options="cap for cap in appiumCapabilityOptions"></select>
+              </td>
+              <td>
+                <input type="text" ng-model="appiumCaps[appiumCapability.option]"/>
+              </td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+      <div>
+      </div>
+      <button id="addCapability" ng-click="addCapability()">Add Capability</button>
+    </div>
     </div>
 
-  <div id="iosOnlyCapabilities" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'ios'">
+    <div id="androidOnlyCapabilities" ng-if="appiumCaps.platform == 'android'">
+      <hr />
+      <h5>Mandatory Android Only Capabilities</h5>
+      <hr />
+      <label>App Package <input type="text" ng-model="caps['appPackage']"></label><br/>
+      <br/>
+      <label>App Activity <input type="text" ng-model="caps['appActivity']"></label><br/>
+      <hr />
+      <h5>Optional Android Only Capabilities</h5>
+      <hr />
+      <div ng-controller="AndroidCapabilitiesController">
+      <table class="table-scroll">
+        <thead>
+            <tr>
+              <th>
+                Capability
+              </th>
+              <th>
+                Value
+              </th>
+            </tr>
+        </thead>
+        <tbody>
+          <div class="tablescroll">
+            <tr ng-repeat="androidCapability in androidCapabilities">
+              <td>
+                <select ng-init="androidCapability.option=androidCapability.capability" ng-disabled='caps[androidCapability.option]' ng-model="androidCapability.option" ng-options="cap for cap in androidCapabilityOptions"></select>
+              </td>
+              <td>
+                <input type="text" ng-model="caps[androidCapability.option]" ng-init="androidCapability.value=abc"/>
+              </td>
+            </tr>
+          </div>
+        </tbody>
+      </table>
+      <div>
+      </div>
+      <button id="addCapability" ng-click="addCapability()">Add Capability</button>
+    </div>
+    </div>
+  <div id="iosOnlyCapabilities" ng-if="appiumCaps.platform == 'ios'">
     <hr />
-    <h5>Ios Only Capabilities</h5>
+    <h5>Mandatory Ios Only Capabilities</h5>
     <hr />
-    <label>App Activity     <input type="text" ng-model="testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appActivity"></label><br/>
-    <p>
-
-    </p>
-    <label>App Package <input type="text" ng-model="testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appPackage"></label><br/>
+    <label>App Package <input type="text" ng-model="caps['appPackage']"></label><br/>
+    <hr />
+    <h5>Optional Ios Only Capabilities</h5>
+    <hr />
+    <div ng-controller="IOSCapabilitiesController">
+    <table class="table-scroll">
+      <thead>
+          <tr>
+            <th>
+              Capability
+            </th>
+            <th>
+              Value
+            </th>
+          </tr>
+      </thead>
+      <tbody>
+        <div class="tablescroll">
+          <tr ng-repeat="iosCapability in iosCapabilities">
+            <td>
+              <select ng-init="iosCapability.option=iosCapability.capability" ng-disabled='caps[iosCapability.option]' ng-model="iosCapability.option" ng-options="cap for cap in iosCapabilityOptions"></select>
+            </td>
+            <td>
+              <input type="text" ng-model="caps[iosCapability.option]" ng-init="iosCapability.value=abc"/>
+            </td>
+          </tr>
+        </div>
+      </tbody>
+    </table>
+    <div>
+    </div>
+    <button id="addCapability" ng-click="addCapability()">Add Capability</button>
+  </div>
   </div>
 </form>
 </div>
@@ -75,21 +173,12 @@
            <label>"runsOn":{{testfeed.runsOn | json : 4}},</label>
            <label>"appDir":{{testfeed.appDir | json : 4}},</label>
            <label>"optimusDesiredCapabilities": {</label>
-             <label>"appiumServerCapabilities":{</label>
-                <label>"app":{{testfeed.optimusDesiredCapabilities.appiumServerCapabilities.app | json : 4}},</label>
-                <label>"platformName":{{testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform | json : 4}}</label>
-             <label> },</label>
-             <div id="platform" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'android'">
-               <label>"androidOnlyCapabilities": {</label>
-                 <label>"appActivity":{{testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appActivity | json : 4}},</label>
-                 <label>"appPackage":{{testfeed.optimusDesiredCapabilities.androidOnlyCapabilities.appPackage | json : 4}}</label>
-               <label> }</label>
+             <label>"appiumServerCapabilities":{{appiumCaps | json}},</label>
+             <div id="platform" ng-if="appiumCaps.platform == 'android'">
+               <label>"androidOnlyCapabilities": {{caps | json}}</label>
              </div>
-             <div id="platform" ng-if="testfeed.optimusDesiredCapabilities.appiumServerCapabilities.platform == 'ios'">
-               <label>"iosOnlyCapabilities": {</label>
-                 <label>"appActivity":{{testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appActivity | json : 4}},</label>
-                 <label>"appPackage":{{testfeed.optimusDesiredCapabilities.iosOnlyCapabilities.appPackage | json : 4}}</label>
-               <label> }</label>
+             <div id="platform" ng-if="appiumCaps.platform == 'ios'">
+               <label>"iosOnlyCapabilities":{{caps | json}}</label>
              </div>
               }
            }
