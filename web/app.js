@@ -1,1 +1,1 @@
-var app = angular.module("testfeedApp",['ngclipboard']);
+var app = angular.module("testfeedApp",['ngclipboard','ui.bootstrap']);

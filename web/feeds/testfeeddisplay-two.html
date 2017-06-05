@@ -1,0 +1,17 @@
+<div id="testfeedDisplay"  ng-if="testfeed2added">
+  ,{
+    <label>"belongsTo":{{testfeedTwo.belongsTo | json : 4}},</label>
+    <label>"nativeApp":{{testfeedTwo.nativeApp | json : 4}},</label>
+    <label>"runsOn":{{testfeedTwo.runsOn | json : 4}},</label>
+    <label>"appDir":{{testfeedTwo.appDir | json : 4}},</label>
+    <label>"optimusDesiredCapabilities": {</label>
+      <label>"appiumServerCapabilities":{{testfeedTwo.appiumCaps | json}},</label>
+      <div id="platform" ng-if="testfeedTwo.appiumCaps.platform == 'android'">
+        <label>"androidOnlyCapabilities": {{testfeedTwo.caps | json}}</label>
+      </div>
+      <div id="platform" ng-if="testfeedTwo.appiumCaps.platform == 'ios'">
+        <label>"iosOnlyCapabilities":{{testfeedTwo.caps | json}}</label>
+      </div>
+       }
+  }
+</div>
