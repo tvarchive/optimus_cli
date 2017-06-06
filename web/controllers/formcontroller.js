@@ -1,11 +1,11 @@
-app.controller("TestFeedDisplay", ['$scope','androidTestFeedService',function TestFeedDisplay($scope,androidTestFeedService) {
+app.controller("TestFeedDisplay", ['$scope','optimusHelpService',function TestFeedDisplay($scope,optimusHelpService) {
   $scope.testfeed =   {};
   $scope.testfeedTwo =   {};
   $scope.testfeedThree =   {};
   $scope.testfeedFour =   {};
   $scope.testfeedFive =   {};
   $scope.showOrHideTF1="hide";
-  $scope.androidTestFeedService = androidTestFeedService;
+  $scope.optimusHelpService = optimusHelpService;
   $scope.caps={};
   $scope.testfeedTwo.caps =   {};
   $scope.testfeedThree.caps =   {};
@@ -21,8 +21,17 @@ app.controller("TestFeedDisplay", ['$scope','androidTestFeedService',function Te
   $scope.testfeedThree.appDir="app";
   $scope.testfeedFour.appDir="app";
   $scope.testfeedFive.appDir="app";
+  $scope.belongsToHelp = optimusHelpService.getBelongsTo();
+  $scope.runsOnHelp = optimusHelpService.getRunsOn();
+  $scope.appDirHelp = optimusHelpService.getAppDir();
+  $scope.appNameHelp = optimusHelpService.getAppName();
+  $scope.appPackageHelp="appPackage";
+  $scope.appActivityHelp="appActivity";
   var original = $scope.testfeed;
   $scope.count=1;
+  $scope.dummy = function() {
+    console.log("dummy");
+  }
   $scope.reset = function() {
     $scope.testfeed= {};
     $scope.testfeed.appDir="app";
@@ -34,6 +43,16 @@ app.controller("TestFeedDisplay", ['$scope','androidTestFeedService',function Te
     $scope.testfeedFour.appDir="app";
     $scope.testfeedFive= {};
     $scope.testfeedFive.appDir="app";
+    $scope.caps={};
+    $scope.testfeedTwo.caps =   {};
+    $scope.testfeedThree.caps =   {};
+    $scope.testfeedFour.caps =   {};
+    $scope.testfeedFive.caps =   {};
+    $scope.appiumCaps={};
+    $scope.testfeedTwo.appiumCaps={};
+    $scope.testfeedThree.appiumCaps={};
+    $scope.testfeedFour.appiumCaps={};
+    $scope.testfeedFive.appiumCaps={};
   }
   $scope.addNewTestFeed = function() {
       $scope.count++;
@@ -235,5 +254,14 @@ app.controller("TestFeedDisplay", ['$scope','androidTestFeedService',function Te
     templateUrl: function(elem, attr) {
       return 'feeds/testfeeddisplay-' + attr.type + '.html';
     }
+  }
+}).directive('optimusHelp',function() {
+  return {
+    restrict:'E',
+    templateUrl:'feeds/optimushelp.html',
+    scope: {
+      title:'='
+    }
+
   }
 });

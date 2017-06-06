@@ -2,26 +2,27 @@
   <p>
 
   </p>
-  <label class="testFeedHeader" ng-show="testFeed3Header">TestFeed3<button id="expandButton" ng-click="toogleTFThree()">{{showOrHideTF3}}</button><button id="removeButton" ng-click="removeTFThree()">x</button></label>
-  <hr ng-show="testFeed3Header"/>
-  <div class = "testfeed3" ng-show="tfThree">
-  <label>Belongs To <input type="text" ng-model="testfeedThree.belongsTo"></label><br/>
-  <label>Native App</label>
+<label class="testFeedHeader" ng-show="testFeed3Header">TestFeed3<button id="expandButton" ng-click="toogleTFThree()">{{showOrHideTF3}}</button><button id="removeButton" ng-click="removeTFThree()">x</button></label>
+<hr ng-show="testFeed3Header"/>
+<div class = "testfeed3" ng-show="tfThree">
+<label>Belongs To&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" ng-model="testfeedThree.belongsTo"></label><optimus-help title="belongsToHelp"></optimus-help> <br/>
+<p>
+
+</p>
+<label>Native App&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 <label><input type="radio" name="response" data-ng-model="testfeedThree.nativeApp" data-ng-value="true" ng-click="uncheck($event)"/>yes</label> <input type="radio" name="response" data-ng-model="testfeedThree.nativeApp" data-ng-value="false" ng-click="uncheck($event)"/>no</label><br/>
-<label>Runs On </label>
+<label>Runs On&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 <select name="singleSelect" id="singleSelect" ng-model="testfeedThree.runsOn">
 <option value="any">any</option>
 <option value="emulator">emulator</option>
 <option value="simulator">simulator</option>
 <option value="device">device</option>
-</select><br>
-<label>Application Folder Name <input type="text" ng-model="testfeedThree.appDir"></label><br />
-<h5>Optimus Desired Capabilities</h5>
-<hr />
+</select><optimus-help title="runsOnHelp"></optimus-help><br>
+<label>App Location&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" ng-model="testfeedThree.appDir"></label><optimus-help title="appDirHelp"></optimus-help><br />
 <h5>Appium Server Capabilities</h6>
 <hr />
-<label>App Name <input type="text" ng-model="testfeedThree.appiumCaps['app']"></label><br/>
-<label>Platform Type </label>
+<label>App Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" ng-model="testfeedThree.appiumCaps['app']"></label><optimus-help title="appNameHelp"></optimus-help><br/>
+<label>Platform Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
 <select name="platformType" id="platformType" ng-model="testfeedThree.appiumCaps['platform']">
 <option value="android">Android</option>
 <option value="ios">Ios</option>
@@ -30,32 +31,34 @@
 
 <div id="otherAppiumCapabilities">
 <hr />
-<h5>Other Appium Capabilities</h5>
+<h5>Optional Appium Capabilities</h5>
 <hr />
 <div ng-controller="AppiumCapabilitiesController">
 <table class="table-scroll">
-  <thead>
-      <tr>
-        <th>
-          Capability
-        </th>
-        <th>
-          Value
-        </th>
-      </tr>
-  </thead>
-  <tbody>
-    <div class="tablescroll">
-      <tr ng-repeat="appiumCapability in appiumCapabilities">
-        <td>
-          <select ng-init="appiumCapability.option=appiumCapability.capability" ng-disabled='testfeedThree.appiumCaps[appiumCapability.option]' ng-model="appiumCapability.option" ng-options="cap for cap in appiumCapabilityOptions"></select>
-        </td>
-        <td>
-          <input type="text" ng-model="testfeedThree.appiumCaps[appiumCapability.option]"/>
-        </td>
-      </tr>
-    </div>
-  </tbody>
+<thead>
+    <tr>
+      <th>
+        Capability
+      </th>
+      <th>
+        Value
+      </th>
+    </tr>
+</thead>
+<div class="wrapper">
+<tbody>
+  <div class="tablescroll">
+    <tr ng-repeat="appiumCapability in appiumCapabilities">
+      <td>
+        <select class="capSelect" ng-init="appiumCapability.option=appiumCapability.capability" ng-disabled='testfeedThree.appiumCaps[appiumCapability.option]' ng-model="appiumCapability.option" ng-options="cap for cap in appiumCapabilityOptions"></select>
+      </td>
+      <td>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" ng-model="testfeedThree.appiumCaps[appiumCapability.option]"/><appium-help title="appiumCapability.option"></appium-help><button id="removeCapability" ng-click="removeCapability(appiumCapability)">x</button>
+      </td>
+    </tr>
+  </div>
+</tbody>
+</div>
 </table>
 <div>
 </div>
@@ -67,51 +70,13 @@
 <hr />
 <h5>Mandatory Android Only Capabilities</h5>
 <hr />
-<label>App Package <input type="text" ng-model="testfeedThree.caps['appPackage']"></label><br/>
+<label>App Package&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <input type="text" ng-model="testfeedThree.caps['appPackage']"><android-help title="appPackageHelp"></android-help></label><br/>
 <br/>
-<label>App Activity <input type="text" ng-model="testfeedThree.caps['appActivity']"></label><br/>
+<label>App Activity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" ng-model="testfeedThree.caps['appActivity']"><android-help title="appActivityHelp"></android-help></label><br/>
 <hr />
 <h5>Optional Android Only Capabilities</h5>
 <hr />
 <div ng-controller="AndroidCapabilitiesController">
-<table class="table-scroll">
-  <thead>
-      <tr>
-        <th>
-          Capability
-        </th>
-        <th>
-          Value
-        </th>
-      </tr>
-  </thead>
-  <tbody>
-    <div class="tablescroll">
-      <tr ng-repeat="androidCapability in androidCapabilities">
-        <td>
-          <select ng-init="androidCapability.option=androidCapability.capability" ng-disabled='testfeedThree.caps[androidCapability.option]' ng-model="androidCapability.option" ng-options="cap for cap in androidCapabilityOptions"></select>
-        </td>
-        <td>
-          <input type="text" ng-model="testfeedThree.caps[androidCapability.option]" ng-init="androidCapability.value=abc"/>
-        </td>
-      </tr>
-    </div>
-  </tbody>
-</table>
-<div>
-</div>
-<button id="addCapability" ng-click="addCapability()">Add Capability</button>
-</div>
-</div>
-<div id="iosOnlyCapabilities" ng-if="testfeedThree.appiumCaps.platform == 'ios'">
-<hr />
-<h5>Mandatory Ios Only Capabilities</h5>
-<hr />
-<label>App Package <input type="text" ng-model="testfeedThree.caps['appPackage']"></label><br/>
-<hr />
-<h5>Optional Ios Only Capabilities</h5>
-<hr />
-<div ng-controller="IOSCapabilitiesController">
 <table class="table-scroll">
 <thead>
     <tr>
@@ -125,15 +90,53 @@
 </thead>
 <tbody>
   <div class="tablescroll">
-    <tr ng-repeat="iosCapability in iosCapabilities">
+    <tr ng-repeat="androidCapability in androidCapabilities">
       <td>
-        <select ng-init="iosCapability.option=iosCapability.capability" ng-disabled='testfeedThree.caps[iosCapability.option]' ng-model="iosCapability.option" ng-options="cap for cap in iosCapabilityOptions"></select>
+        <select ng-init="androidCapability.option=androidCapability.capability" ng-disabled='testfeedThree.caps[androidCapability.option]' ng-model="androidCapability.option" ng-options="cap for cap in androidCapabilityOptions"></select>
       </td>
       <td>
-        <input type="text" ng-model="testfeedThree.caps[iosCapability.option]" ng-init="iosCapability.value=abc"/>
+        &nbsp;&nbsp;&nbsp;<input type="text" ng-model="testfeedThree.caps[androidCapability.option]" ng-init="androidCapability.value=abc"/><android-help title="androidCapability.option"></android-help><button id="removeCapability" ng-click="removeCapability(androidCapability)">x</button>
       </td>
     </tr>
   </div>
+</tbody>
+</table>
+<div>
+</div>
+<button id="addCapability" ng-click="addCapability()">Add Capability</button>
+</div>
+</div>
+<div id="iosOnlyCapabilities" ng-if="testfeedThree.appiumCaps.platform == 'ios'">
+<hr />
+<h5>Mandatory Ios Only Capabilities</h5>
+<hr />
+<label>App Package &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" ng-model="testfeedThree.caps['appPackage']"><ios-help title="appPackageHelp"></ios-help></label><br/>
+<hr />
+<h5>Optional Ios Only Capabilities</h5>
+<hr />
+<div ng-controller="IOSCapabilitiesController">
+<table class="table-scroll">
+<thead>
+  <tr>
+    <th>
+      Capability
+    </th>
+    <th>
+      Value
+    </th>
+  </tr>
+</thead>
+<tbody>
+<div class="tablescroll">
+  <tr ng-repeat="iosCapability in iosCapabilities">
+    <td>
+      <select ng-init="iosCapability.option=iosCapability.capability" ng-disabled='testfeedThree.caps[iosCapability.option]' ng-model="iosCapability.option" ng-options="cap for cap in iosCapabilityOptions"></select>
+    </td>
+    <td>
+    &nbsp;&nbsp;&nbsp;<input type="text" ng-model="testfeedThree.caps[iosCapability.option]" ng-init="iosCapability.value=abc"/><ios-help title="iosCapability.option"></ios-help><button id="removeCapability" ng-click="removeCapability(iosCapability)">x</button>
+    </td>
+  </tr>
+</div>
 </tbody>
 </table>
 <div>
