@@ -84,9 +84,8 @@ function createtestfeed(args,callback) {
 function doctor(args,callback) {
     var commands = new Commands();
     commands.verifyJava();
-    commands.verifyRedis();
     commands.verifyAppium();
-    // commands.verifyRethinkDB();
+    commands.verifyMongoDB();
     commands.verifyAPT();
     commands.verifyXcode();
     commands.verifyGradle();
@@ -95,16 +94,12 @@ function doctor(args,callback) {
 function setup(args,callback) {
     var commands = new Commands();
     commands.installJava();
-    commands.installRedis();
     commands.installAppium();
-    // commands.installRethinkDB();
+    commands.installMongoDB();
     commands.installAPT();
     commands.installFBSimctl();
     commands.installGradle();
 }
-
-
-
 
 function appVersion(args,callback) {
   console.log(pjson.version);
@@ -115,21 +110,20 @@ program
   .description('creates a new optimus project')
   .action(createproject);
 
+program
+  .command('testfeed')
+  .description('Create a testfeed for the project')
+  .action(createtestfeed);
 
-  program
-    .command('testfeed')
-    .description('Create a testfeed for the project')
-    .action(createtestfeed);
+program
+  .command('doctor')
+  .description('verifies the workspace for dependencies')
+  .action(doctor);
 
-  program
-    .command('doctor')
-    .description('verifies the workspace for dependencies')
-    .action(doctor);
-
-    program
-      .command('setup')
-      .description('sets up the optimus environment')
-      .action(setup);
+program
+  .command('setup')
+  .description('sets up the optimus environment')
+  .action(setup);
 
 program
   .option('-v','--version',appVersion)

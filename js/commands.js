@@ -20,7 +20,7 @@ module.exports = function Commands(){
       }
     });
   }
-  
+
   this.installJava= function() {
       cmd.get(
         'java -version',
@@ -95,95 +95,49 @@ this.installAppium = function() {
       });
 }
 
-this.verifyRethinkDB = function() {
+this.verifyMongoDB = function() {
   cmd.get(
-    'rethinkdb -v',
+    'mongod --version',
     function(data,err) {
-    console.log(logSymbols.info,"Verifying if RethinkDB is installed");
+    console.log(logSymbols.info,"Verifying if MongoDB is installed");
     if(!err) {
-      console.log(logSymbols.success,'RethinkDB is installed');
+      console.log(logSymbols.success,'MongoDB is installed');
     } else {
-      console.log(logSymbols.error,"RethinkDB is not installed");
+      console.log(logSymbols.error,"MongoDB is not installed");
     }
   });
 }
 
-  this.installRethinkDB = function() {
-    var rethinkInstalled;
+  this.installMongoDB = function() {
+    var mongoInstalled;
     cmd.get(
-      'rethinkdb -v',
+      'mongod --version',
       function(data,err) {
       if(err) {
-        rethinkInstalled=false;
-        console.log(logSymbols.warning,colors.cyan("Installing RethinkDB.."));
+        mongoInstalled=false;
+        console.log(logSymbols.warning,colors.cyan("Installing MongoDB.."));
         switch (os.platform()) {
           case "darwin": case "linux":
-          cmd.get('brew install rethinkdb', function(data,err) {
+          cmd.get('brew install mongodb', function(data,err) {
             if(!err) {
-              console.log(logSymbols.success,'Installed RethinkDB successfully');
+              console.log(logSymbols.success,'Installed MongoDB successfully');
             } else {
-              console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually from "https://rethinkdb.com/docs/install/ubuntu/"'),err);
+              console.log(logSymbols.error,colors.red('Failed to install MongoDB, install it manually from "https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-ubuntu/"'),err);
             }
           });
             break;
             case "win32":
-            cmd.get('choco install rethinkdb', function(data,err) {
+            cmd.get('choco install mongodb', function(data,err) {
               if(!err) {
-                console.log(logSymbols.success,'Installed RethinkDB successfully');
+                console.log(logSymbols.success,'Installed MongoDB successfully');
               } else {
-                console.log(logSymbols.error,colors.red('Failed to install RethinkDB, install it manually'),err);
+                console.log(logSymbols.error,colors.red('Failed to install MongoDB, install it manually from "https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/"'),err);
               }
             });
           break;
         }
-
       }
     });
-  }
-
-  this.verifyRedis = function() {
-      cmd.get(
-        'redis-cli -v',
-        function(data,err) {
-        console.log(logSymbols.info,"Verifying if Redis is installed");
-        if(!err) {
-          console.log(logSymbols.success,'Redis is installed');
-        } else {
-          console.log(logSymbols.error,"Redis is not installed");
-        }
-      });
-  }
-
-  this.installRedis = function() {
-      cmd.get(
-        'redis-cli -v',
-        function(data,err) {
-        if(err) {
-          console.log(logSymbols.warning,colors.gray("Installing Redis.."));
-          switch (os.platform()) {
-            case "darwin": case "linux":
-            cmd.get('brew install redis', function(data,err) {
-              if(!err) {
-                console.log(logSymbols.success,'Installed Redis successfully');
-              } else {
-                console.log(logSymbols.error,colors.red('Failed to install Redis, install it manually'),err);
-              }
-            });
-
-              break;
-              case "win32":
-              cmd.get('choco install redis', function(data,err) {
-                if(!err) {
-                  console.log(logSymbols.success,'Installed Redis successfully');
-                } else {
-                  console.log(logSymbols.error,colors.red('Failed to install Redis, install it manually'),err);
-                }
-              });
-            break;
-          }
-
-        }
-      });
   }
 
   this.verifyAPT = function() {
