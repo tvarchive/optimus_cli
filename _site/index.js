@@ -116,13 +116,8 @@ function getAllConnectedDevices(args,callback) {
   var commands = new Devices();
   commands.getAllConnectedDevices();
 }
-
-function appVersion() {
+function appVersion(args,callback) {
   console.log(pjson.version);
-}
-
-function help(){
-  program.outputHelp();
 }
 
 program
@@ -140,46 +135,29 @@ program
   .description('verifies the workspace for dependencies')
   .action(doctor);
 
-
 program
   .command('setup')
   .description('sets up the optimus environment')
   .action(setup);
 
 program
-  .command('version')
-  .description('displays the present optimus version')
+  .option('-v','--version',appVersion)
+  .description('get the optimus version')
   .action(appVersion);
-
-
-program
-  .option('')
-  .action(help);
 
 program
   .command('getandroiddevices')
-  .description('gets all the connected android devices')
+  .description('get all the connected android devices')
   .action(getAndroidDevices);
 
 program
   .command('getiosdevices')
-  .description('gets all the connected iOS devices')
+  .description('get all the connected iOS devices')
   .action(getIOSDevices);
 
 program
   .command('getallconnecteddevices')
-  .description('gets all the connected devices')
+  .description('get all the connected devices')
   .action(getAllConnectedDevices);
 
-// program
-//   .command('getdevices')
-//   .description('')
-//   .action(getAllDevices)
-
 program.parse(process.argv);
-
-var NO_COMMAND_SPECIFIED = program.args.length === 0;
-
-if (NO_COMMAND_SPECIFIED) {
-  program.help();
-}

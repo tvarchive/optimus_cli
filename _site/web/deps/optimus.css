@@ -1,0 +1,333 @@
+html {
+  background: #43cea2;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #185a9d, #43cea2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #185a9d, #43cea2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: "Goudy Bookletter 1911", sans-serif;
+  color: #53346D;
+}
+.testfeedsection {
+  height: 100vh;
+  /*background-color: #43C6AC;*/
+}
+
+  .input {
+    width: 410px;
+    height: 900px;
+    margin-right: 10px;
+    float: left;
+    border-right: solid;
+    border-color: #FFFFFF;
+    border-width: 1px;
+    line-height: normal;
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+.output {
+    position: relative;
+    perspective-origin: bottom;
+    float: left;
+    height:100vh;
+    top:-7px;
+    width:840px;
+    margin-left: 0px;
+    border-left: solid;
+    left:-11px;
+    border-color: #FFFFFF;
+    border-width: 1px;
+    line-height: normal;
+}
+
+
+#testfeedTitle {
+  position: relative;
+  left:11px;
+  top:10px;
+  color: #182848;
+  font-family:Arial;
+  text-align: center;
+}
+
+ pre {
+   position: relative;
+   font-size: 1.6em;
+   color:#DBD5A4;
+   margin-left: -1px;
+   border-left: solid;
+   left:0px;
+   border-color: #FFFFFF;
+   border-width: 1px;
+   line-height: normal;
+   width: 880px;
+   height: 600px;
+   overflow-x: scroll;
+   /*overflow: auto;*/
+ }
+
+
+
+     #copyButton {
+  background-color:#d53369;
+  /*-moz-border-radius:18px;
+  -webkit-border-radius:18px;*/
+  position: relative;
+  left: 280px;
+  top:-5px;
+  border-radius:18px;
+  border:1px solid #d53369;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:10px;
+  padding:6px 11px;
+  text-decoration:inherit;
+  text-shadow:0px 1px 0px #d53369;
+}
+
+#addCapability {
+  background-color:#d53369;
+  /*-moz-border-radius:18px;
+  -webkit-border-radius:18px;*/
+  position: relative;
+  top:5px;
+  left: 5px;
+  border-radius:18px;
+  border:1px solid #d53369;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:10px;
+  padding:6px 11px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #d53369;
+}
+
+#addAnotherTestFeed {
+  background-color:#d53369;
+  /*-moz-border-radius:18px;
+  -webkit-border-radius:18px;*/
+  position: relative;
+  top:60px;
+  left: 85px;
+  border-radius:18px;
+  border:1px solid #d53369;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:20px;
+  padding:16px 21px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #d53369;
+}
+
+
+
+#resetButton {
+background-color:#859398;
+/*-moz-border-radius:18px;
+-webkit-border-radius:18px;*/
+position: relative;
+left: 295px;
+top:-5px;
+border-radius:18px;
+border:1px solid #859398;
+display:inline-block;
+cursor:pointer;
+color:#ffffff;
+font-family:Arial;
+font-size:10px;
+padding:6px 11px;
+text-decoration:none;
+text-shadow:0px 1px 0px #859398;
+}
+
+
+#expandButton {
+  background-color:#d53369;
+  /*-moz-border-radius:18px;
+  -webkit-border-radius:18px;*/
+  position: relative;
+  top:0px;
+  left: 195px;
+  border-radius:18px;
+  border:1px solid #d53369;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:10px;
+  padding:6px 11px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #d53369;
+}
+
+#removeButton {
+background-color:#859398;
+/*-moz-border-radius:18px;
+-webkit-border-radius:18px;*/
+position: relative;
+left: 215px;
+top:0px;
+border-radius:18px;
+border:1px solid #859398;
+display:inline-block;
+cursor:pointer;
+color:#ffffff;
+font-family:Arial;
+font-size:10px;
+padding:6px 11px;
+text-decoration:none;
+text-shadow:0px 1px 0px #859398;
+}
+
+#removeCapability {
+background-color:#859398;
+/*-moz-border-radius:18px;
+-webkit-border-radius:18px;*/
+position: relative;
+left: 2px;
+top:0px;
+border-radius:18px;
+border:1px solid #859398;
+display:inline-block;
+cursor:pointer;
+color:#ffffff;
+font-family:Arial;
+font-size:10px;
+padding:5px 7px;
+text-decoration:none;
+text-shadow:0px 1px 0px #859398;
+}
+hr {
+  background-color: pink !important;
+  color: pink !important;
+}
+
+
+.underline {
+top:200px;
+}
+
+.table-scroll thead {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+.wrapper tbody {
+    overflow-y: auto;
+}
+
+.table-scroll tbody {
+    max-height: 250px;
+    overflow-x: visible;
+    overflow-y: scroll;
+    display: block;
+    width: 100%;
+    table-layout: auto;
+}
+
+.testFeedHeader {
+  position: relative;
+  float: inherit;
+  color:#182848;
+}
+
+#testFeedDisplay {
+  display: inline-block;
+}
+
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+.isa_info, .isa_success, .isa_warning, .isa_error {
+margin: 10px 0px;
+padding:12px;
+
+}
+.isa_info {
+    position: relative;
+    color: #9F6000;
+    background-color: #FEEFB3;
+    top:60px;
+    left: 85px;
+    border-radius:18px;
+    border:1px solid #d53369;
+}
+
+.help {
+  position: relative;
+  height: 20px;
+  padding: 1px;
+  top: 0px;
+}
+
+.tooltip {
+    position: relative;
+    height: 20px;
+    padding: 1px;
+    top: 7px;
+    display: inline-block;
+    z-index: 5;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #43cea2;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    text-overflow: ellipsis;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 9999;
+    top: -5px;
+    left: 105%;
+    font-size: 15px;
+}
+
+.tooltip {
+    position: relative;
+    height: 20px;
+    padding: 1px;
+    top: 7px;
+    display: inline-block;
+    z-index: 5;
+}
+
+.tooltip .tabletooltiptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #43cea2;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    text-overflow: ellipsis;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 9999;
+    top: -5px;
+    right: 105%;
+    font-size: 15px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip:hover .tabletooltiptext {
+    visibility: visible;
+}
+
+
+.appiumCapsHeader {
+  position: relative;
+  left: 20px;
+}
+
+.capSelect {
+  position: relative;
+  top: 3px;
+}

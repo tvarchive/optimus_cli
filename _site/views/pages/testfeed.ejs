@@ -1,0 +1,48 @@
+<% include ../partials/header %>
+<h1><%= tfname %> testfeed details</h1><br>
+<form method="POST" action="/add/testfeed">
+  <h4>Driver specifics</h4><hr>
+  <label>My Driver Name</label><br>
+  <input type="text" placeholder="Webdriver name"/><br>
+  <p>
+  <label>My Driver Runs On</label><br>
+  <select name="runsOn" class="form-control selectpicker">
+    <option selected="selected">Any</option>
+    <option>Device</option>
+    <option >Emulator</option>
+    <option >Simulator</option>
+  </select>
+  <br>
+  <p></p>
+  <label>My App is</label><br>
+  <p>
+  <input type="radio" name="appType" checked="true" />Native
+  <input type="radio" name="appType" />WebApp<br/>
+  <p>
+  <label>My App resides in</label><br>
+  <input type="text" name="appDir" placeholder="App folder name"/>
+  <p>
+  <h4>Optimus Presets</h4>
+  <hr>
+  <label>Appium Server Capabilities </label>
+  <table>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Value
+      </th>
+    </tr>
+    <tr>
+      <td>
+        1
+      </td>
+      <td>
+        2
+      </td>
+    </tr>
+  </table>
+
+</form>
+<% include ../partials/footer %>

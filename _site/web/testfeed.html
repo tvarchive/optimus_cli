@@ -1,0 +1,62 @@
+<!doctype html>
+<html ng-app="testfeedApp">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.4.0.js"></script>
+    <script type=”text/javascript” src=”bower_components/ng-device-detector/ng-device-detector.min.js”></script>
+    <script type=”text/javascript” src=”bower_components/re-tree/re-tree.min.js”></script>
+    <script src="/deps/ngclipboard.js"></script>
+    <script type='text/javascript' src="app.js"></script>
+    <script src="/controllers/formcontroller.js"></script>
+    <script src="/controllers/androidCapabilitiesController.js"></script>
+    <script src="/controllers/iosCapabilitiesController.js"></script>
+    <script src="/controllers/appiumCapabilitiesController.js"></script>
+    <script src="/controllers/androidTestFeedController.js"></script>
+    <script src="/services/OptimusHelpService.js"></script>
+    <script src="/services/AppiumCapabilitiesHelpService.js"></script>
+    <script src="/services/AndroidCapabilitiesHelpService.js"></script>
+    <script src="/services/IOSCapabilitiesHelpService.js"></script>
+    <link rel="stylesheet" href="/deps/optimus.css">
+  </head>
+  <body ng-controller="TestFeedDisplay">
+    <section class="testfeedsection">
+      <div class="input" ng-model="testfeedForm">
+      <form novalidate class="simple-form">
+        <h4 id="testfeedTitle">Test Feed Details</h4>
+        <hr>
+        <test-feed type="one"></test-feed>
+        <label></label>
+        <test-feed type="two"></test-feed>
+        <label></label>
+        <test-feed type="three"></test-feed>
+        <label></label>
+        <test-feed type="four"></test-feed>
+        <label></label>
+        <test-feed type="five"></test-feed>
+</form>
+<button id="addAnotherTestFeed" ng-hide="maxTestFeedsReached" ng-click="addNewTestFeed()">Add Test Feed</button>
+<label class="isa_info" ng-show="maxTestFeedsReached">Max Test Feeds Reached</label>
+</div>
+  <div class="output">
+    <h4 id="testfeedTitle">  Optimus Test Feed <button id="copyButton" ngclipboard data-clipboard-target="#testfeedData">Clipboard</button><button id="resetButton" ng-click="reset()">Reset</button></h4>
+    <hr />
+  <pre id="testfeedData">
+    {
+        "executionDetails": {
+          "appium_js_path": "/usr/local/bin/appium",
+          "appium_node_path": "/usr/local/bin/node"
+         },
+         "testFeed":[
+          <feed-display type="one"></feed-display>
+          <feed-display type="two"></feed-display>
+          <feed-display type="three"></feed-display>
+          <feed-display type="four"></feed-display>
+          <feed-display type="five"></feed-display>
+         ]
+    }
+  </pre>
+</div>
+    </section>
+  </body>
+</html>
