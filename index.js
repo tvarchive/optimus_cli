@@ -2,7 +2,8 @@
 var program = require('commander');
 const http = require('http');
 var Commands = require('./js/commands');
-var Devices = require('./js/getDevices');
+var DeviceDetails = require('./js/deviceDetails');
+var Devices = require('./js/devices');
 var Setup = require('./js/setup');
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -18,6 +19,7 @@ var express = require('express');
 var open = require('opn');
 var path = require('path');
 var fs = require('fs');
+var Table = require('console.table');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
@@ -102,27 +104,45 @@ function setup(args,callback) {
     commands.installGradle();
 }
 
-function getAndroidDevices(args,callback) {
-  var commands = new Devices();
-  commands.getAndroidDevices();
+function getAndroidDevices(args,callback){
+  var devices = new Devices();
+  var deviceDetails = new DeviceDetails(devices);
+  deviceDetails.getDeviceDetails();
+  deviceDetails.getDeviceType();
 }
 
-function getIOSDevices(args,callback) {
-  var commands = new Devices();
-  commands.getIOSDevices();
-}
-
-function getAllConnectedDevices(args,callback) {
-  var commands = new Devices();
-  commands.getAllConnectedDevices();
-}
+// function getAllDevices(args,callback){
+//   var commands = new Devices();
+//   commands.getAllDevices();
+// }
+//
+// function getAndroidDevices(args,callback) {
+//   var commands = new Devices();
+//   commands.getAndroidDevices();
+// }
+//
+// function getIOSDevices(args,callback) {
+//   var commands = new Devices();
+//   commands.getIOSDevices();
+// }
+//
+// function getAllConnectedDevices(args,callback) {
+//   var commands = new Devices();
+//   commands.getAllConnectedDevices();
+// }
+//
+// function getAll(args,callback) {
+//   var commands = new Devices();
+//   commands.getAll();
+// }
 
 function appVersion() {
   console.log(pjson.version);
 }
 
 function help(){
-  program.outputHelp();
+  program.help();
+  process.exit(0);
 }
 
 program
@@ -151,35 +171,38 @@ program
   .description('displays the present optimus version')
   .action(appVersion);
 
-
+//when options do not match,print "help"
 program
   .option('')
   .action(help);
+
 
 program
   .command('getandroiddevices')
   .description('gets all the connected android devices')
   .action(getAndroidDevices);
-
-program
-  .command('getiosdevices')
-  .description('gets all the connected iOS devices')
-  .action(getIOSDevices);
-
-program
-  .command('getallconnecteddevices')
-  .description('gets all the connected devices')
-  .action(getAllConnectedDevices);
-
+//
 // program
-//   .command('getdevices')
-//   .description('')
-//   .action(getAllDevices)
+//   .command('getall')
+//   .description('gets devices')
+//   .action(getAll);
+//
+// program
+//   .command('getiosdevices')
+//   .description('gets all the connected iOS devices')
+//   .action(getIOSDevices);
+//
+// program
+//   .command('getallconnecteddevices')
+//   .description('gets all the connected devices')
+//   .action(getAllConnectedDevices);
 
 program.parse(process.argv);
 
+//if no commands specified,display "help"
 var NO_COMMAND_SPECIFIED = program.args.length === 0;
 
 if (NO_COMMAND_SPECIFIED) {
   program.help();
+  program.exit(0);
 }

@@ -22,6 +22,7 @@
     "commander": "^2.9.0",
     "del": "^2.2.2",
     "ejs": "^2.5.6",
+    "console.table": "^0.8.0",
     "express": "^4.15.2",
     "http-server": "^0.9.0",
     "inits": "^1.6.0",
