@@ -107,34 +107,10 @@ function setup(args,callback) {
 function getAndroidDevices(args,callback){
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
-  deviceDetails.getDeviceDetails();
+  deviceDetails.getUDID();
   deviceDetails.getDeviceType();
 }
 
-// function getAllDevices(args,callback){
-//   var commands = new Devices();
-//   commands.getAllDevices();
-// }
-//
-// function getAndroidDevices(args,callback) {
-//   var commands = new Devices();
-//   commands.getAndroidDevices();
-// }
-//
-// function getIOSDevices(args,callback) {
-//   var commands = new Devices();
-//   commands.getIOSDevices();
-// }
-//
-// function getAllConnectedDevices(args,callback) {
-//   var commands = new Devices();
-//   commands.getAllConnectedDevices();
-// }
-//
-// function getAll(args,callback) {
-//   var commands = new Devices();
-//   commands.getAll();
-// }
 
 function appVersion() {
   console.log(pjson.version);
@@ -181,21 +157,6 @@ program
   .command('getandroiddevices')
   .description('gets all the connected android devices')
   .action(getAndroidDevices);
-//
-// program
-//   .command('getall')
-//   .description('gets devices')
-//   .action(getAll);
-//
-// program
-//   .command('getiosdevices')
-//   .description('gets all the connected iOS devices')
-//   .action(getIOSDevices);
-//
-// program
-//   .command('getallconnecteddevices')
-//   .description('gets all the connected devices')
-//   .action(getAllConnectedDevices);
 
 program.parse(process.argv);
 
@@ -204,5 +165,4 @@ var NO_COMMAND_SPECIFIED = program.args.length === 0;
 
 if (NO_COMMAND_SPECIFIED) {
   program.help();
-  program.exit(0);
 }

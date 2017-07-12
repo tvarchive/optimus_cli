@@ -5,7 +5,6 @@ var Table = require('console.table');
 
 module.exports = function Devices(){
   var error;
-
   this.getAllConnectedDevices = function() {
     console.log(logSymbols.info,"Getting all connected devices to the system...\n")
     cmd.get('adb devices -l', function(data,err) {

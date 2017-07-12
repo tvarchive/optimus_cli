@@ -1,49 +1,42 @@
 #!/usr/bin/env node
 const cmd=require('node-cmd');
 var logSymbols = require('log-symbols');
+var Table = require('console.table');
+
 
 module.exports = function Devices(){
   var error;
 
-  this.getUDID = function(callback){
-    var udid;
-    console.log("UDID\t\t\t\tDevice Type");
+  this.getUDID = function(){
+    return new Promise((resolve,reject)=>{
     cmd.get(
             `adb devices -l > devicesList
              cat devicesList | grep -E -o "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4}"
              rm devicesList
             `
-    , function(data,err) {
-      if(!err){
-        console.log(data);
-        udid=data;
-        callback(udid);
+    , function(data,err){
+      if(err){
+        return reject(err);
       }
-      else{
-        console.log("No device(s) connected to the system !");
-      }
+      return resolve(data);
     });
-  }
+  });
+}
 
-  this.getDeviceType = function(){
+//^([a-zA-Z0-9_-]){8}$
+this.getDeviceType = function(){
+  return new Promise((resolve,reject)=>{
     cmd.get(
             `adb devices -l > devicesList
              cat devicesList | grep -o 'device:vbox'
              rm devicesList
             `
     ,function(data,err){
-      error = err;
-      if(!err){
-        if(data.includes("device:vbox")){
-          console.log("Emulator");
-        }
-        else{
-        console.log("Mobile device");
-        }
+      if(err){
+        return reject(err);
       }
-      else{
-        console.log("No device(s) connected to the system !");
-      }
+      return resolve(data);
     });
-  }
+  });
+}
 }
