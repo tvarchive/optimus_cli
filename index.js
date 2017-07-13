@@ -107,10 +107,8 @@ function setup(args,callback) {
 function getAndroidDevices(args,callback){
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
-  deviceDetails.getUDID();
-  deviceDetails.getDeviceType();
+  deviceDetails.getDeviceDetails();
 }
-
 
 function appVersion() {
   console.log(pjson.version);
