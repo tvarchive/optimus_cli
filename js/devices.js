@@ -6,7 +6,7 @@ var Table = require('console.table');
 
 module.exports = function Devices(){
   var error;
-
+  var devices = {};
   this.getEmulatorUDID = function(){
     return new Promise((resolve,reject)=>{
     cmd.get(
@@ -29,7 +29,7 @@ this.getDeviceUDID = function(){
     cmd.get(`adb devices -l > devices
              cat devices | grep "device usb" > devicesList
              rm devices
-             cat devicesList | grep -E -o "([0-9A-Za-z]){8}\\s\\s"
+             cat devicesList | grep -E -o "([0-9A-Za-z]){7,8}\\s\\s"
              rm devicesList
             `
       , function(data,err){
@@ -59,7 +59,7 @@ this.getEmulators = function(data){
   return promise;
 }
 
-this.getMobileDevice = function(data){
+this.getMobileDevices = function(data){
   return new Promise((resolve,reject)=>{
     cmd.get(
             `adb devices -l > devicesList
