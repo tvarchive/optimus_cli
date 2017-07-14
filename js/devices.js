@@ -8,6 +8,7 @@ module.exports = function Devices(){
   var error;
   var devices = [];
   var deviceDetails= {};
+
   this.getDeviceDetails = new Promise(
     function(resolve,reject) {
       cmd.get(
@@ -28,7 +29,25 @@ module.exports = function Devices(){
              };
           devices.push(deviceDetails);
         }
-        return resolve(devices);
+        resolve(devices);
       });
   });
+
+  this.getType = function(devices){
+    return new Promise(
+      function (resolve,reject){
+        var emulatorPattern = new RegExp('^([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4})$');
+        var mobileDevicePattern = new RegExp('^([a-zA-Z0-9]){7,8}\\s\\s$');
+          for(i=0; i<devices.length; i++){
+              if(emulatorPattern.test(devices[i].udid)){
+                devices[i].type = 'Emulator';
+              }
+              else if(mobileDevicePattern.test(devices[i].udid)){
+                devices[i].type = 'Mobile Device';
+              }
+          }
+           resolve(devices);
+      }
+    );
+  };
 }
