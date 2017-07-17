@@ -13,11 +13,9 @@ module.exports = function Devices(){
     function(resolve,reject) {
       cmd.get(
               `
-               adb kill-server
                adb devices -l > devicesList
                cat devicesList | grep -E -o "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4}"
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
-               rm devicesList
               `
       , function(data,err){
         if(err){
@@ -34,6 +32,28 @@ module.exports = function Devices(){
         resolve(devices);
       });
   });
+
+  this.getDeviceName = function(devices){
+    return new Promise(
+      function (resolve,reject){
+        cmd.get(`
+                  cat devicesList | grep -E -o "device:[a-zA-Z0-9]+"
+                  rm devicesList
+                `
+                ,function(data,err){
+                  if(err){
+                    var reason = new Error('No devices(s) found !');
+                    return reject(reason);
+                  }
+                  deviceList = data.split('\n');
+                  console.log(deviceList);
+                  for(i=0; i<deviceList.length-1; i++){
+                      devices[i]["Device name"] = deviceList[i].split(":")[1];
+                  }
+                  resolve(devices);
+                });
+          });
+  };
 
   this.getType = function(devices){
     return new Promise(
@@ -63,7 +83,7 @@ module.exports = function Devices(){
               function(data,err){
                 devicesProcessed++;
                 version = data.split('\n')[0].split('\r')[0];
-                device["OS version"] = version;
+                device["OS version"] = "Android "+version;
                 if(devicesProcessed==devices.length){
                   resolve(devices);
                 }
@@ -71,5 +91,4 @@ module.exports = function Devices(){
           });
         });
       };
-
 }
