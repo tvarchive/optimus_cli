@@ -37,7 +37,7 @@ module.exports = function Devices(){
     return new Promise(
       function (resolve,reject){
         cmd.get(`
-                  cat devicesList | grep -E -o "device:[a-zA-Z0-9]+"
+                  cat devicesList | grep -E -o "model:[a-zA-Z0-9_]+"
                   rm devicesList
                 `
                 ,function(data,err){
@@ -46,7 +46,6 @@ module.exports = function Devices(){
                     return reject(reason);
                   }
                   deviceList = data.split('\n');
-                  console.log(deviceList);
                   for(i=0; i<deviceList.length-1; i++){
                       devices[i]["Device name"] = deviceList[i].split(":")[1];
                   }
