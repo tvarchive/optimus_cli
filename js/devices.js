@@ -12,7 +12,9 @@ module.exports = function Devices(){
   this.getUDID = new Promise(
     function(resolve,reject) {
       cmd.get(
-              `adb devices -l > devicesList
+              `
+               adb kill-server
+               adb devices -l > devicesList
                cat devicesList | grep -E -o "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4}"
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
                rm devicesList
@@ -50,18 +52,24 @@ module.exports = function Devices(){
       });
   };
 
+
+
   this.getOSVersion = function(devices){
     return new Promise(
       function (resolve,reject){
+        var devicesProcessed = 0;
         devices.forEach(function(device){
           cmd.get(`adb -s `+ device.udid +` shell getprop ro.build.version.release`,
               function(data,err){
+                devicesProcessed++;
                 version = data.split('\n')[0].split('\r')[0];
-                device["OS version"] = "Android "+version;
-                // console.log(device);
+                device["OS version"] = version;
+                if(devicesProcessed==devices.length){
+                  resolve(devices);
+                }
             });
           });
-          resolve(devices);
         });
       };
+
 }
