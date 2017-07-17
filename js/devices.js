@@ -1,15 +1,15 @@
 #!/usr/bin/env node
-const cmd=require('node-cmd');
+const cmd = require('node-cmd');
 var logSymbols = require('log-symbols');
 var Table = require('console.table');
-
+const async = require('async');
 
 module.exports = function Devices(){
   var error;
   var devices = [];
   var deviceDetails= {};
 
-  this.getDeviceDetails = new Promise(
+  this.getUDID = new Promise(
     function(resolve,reject) {
       cmd.get(
               `adb devices -l > devicesList
@@ -37,17 +37,31 @@ module.exports = function Devices(){
     return new Promise(
       function (resolve,reject){
         var emulatorPattern = new RegExp('^([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4})$');
-        var mobileDevicePattern = new RegExp('^([a-zA-Z0-9]){7,8}\\s\\s$');
-          for(i=0; i<devices.length; i++){
+        var devicePattern = new RegExp('^([a-zA-Z0-9]){7,8}\\s\\s$');
+          for(let i=0; i<devices.length; i++){
               if(emulatorPattern.test(devices[i].udid)){
-                devices[i].type = 'Emulator';
+                devices[i]["Device type"] = 'Emulator';
               }
-              else if(mobileDevicePattern.test(devices[i].udid)){
-                devices[i].type = 'Mobile Device';
+              else if(devicePattern.test(devices[i].udid)){
+                devices[i]["Device type"] = 'Device';
               }
           }
            resolve(devices);
-      }
-    );
+      });
   };
+
+  this.getOSVersion = function(devices){
+    return new Promise(
+      function (resolve,reject){
+        devices.forEach(function(device){
+          cmd.get(`adb -s `+ device.udid +` shell getprop ro.build.version.release`,
+              function(data,err){
+                version = data.split('\n')[0].split('\r')[0];
+                device["OS version"] = "Android "+version;
+                // console.log(device);
+            });
+          });
+          resolve(devices);
+        });
+      };
 }

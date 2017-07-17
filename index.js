@@ -110,6 +110,16 @@ function getAndroidDevices(args,callback){
   deviceDetails.getDevices();
 }
 
+// function getIOSDevices(args,callback){
+//   var devices = new Devices();
+//   var deviceDetails = new DeviceDetails(devices);
+// }
+
+// function getAllDevices(args,callback){
+//   var devices = new Devices();
+//   var deviceDetails = new DeviceDetails(devices);
+// }
+
 function appVersion() {
   console.log(pjson.version);
 }
