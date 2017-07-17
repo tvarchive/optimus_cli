@@ -1,8 +1,5 @@
 #!/usr/bin/env node
 const cmd = require('node-cmd');
-var logSymbols = require('log-symbols');
-var Table = require('console.table');
-const async = require('async');
 
 module.exports = function Devices(){
   var error;
@@ -58,7 +55,7 @@ module.exports = function Devices(){
     return new Promise(
       function (resolve,reject){
         var emulatorPattern = new RegExp('^([0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4})$');
-        var devicePattern = new RegExp('^([a-zA-Z0-9]){7,8}\\s\\s$');
+        var devicePattern = new RegExp('^([a-zA-Z0-9]){7,15}\\s\\s$');
           for(let i=0; i<devices.length; i++){
               if(emulatorPattern.test(devices[i].udid)){
                 devices[i]["Device type"] = 'Emulator';
@@ -70,8 +67,6 @@ module.exports = function Devices(){
            resolve(devices);
       });
   };
-
-
 
   this.getOSVersion = function(devices){
     return new Promise(

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const cmd = require('node-cmd');
-var logSymbols = require('log-symbols');
 var Table = require('console.table');
 
 module.exports = function DeviceDetails(arg) {
