@@ -15,8 +15,8 @@ module.exports = function Devices(){
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
               `
       , function(data,err){
-        if(err){
-          var reason = new Error('No devices(s) found !');
+        if(data.length==0 || err){
+          var reason = new Error('No devices(s) found ! Please connect your devices properly if not connected.');
           return reject(reason);
         }
         deviceList = data.split('\n');
@@ -33,8 +33,8 @@ module.exports = function Devices(){
   this.getDeviceName = function(devices){
     return new Promise(
       function (resolve,reject){
-        cmd.get(`
-                  cat devicesList | grep -E -o "model:[a-zA-Z0-9_]+"
+        cmd.get(
+                `cat devicesList | grep -E -o "model:[a-zA-Z0-9_]+"
                   rm devicesList
                 `
                 ,function(data,err){
