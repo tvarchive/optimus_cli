@@ -107,7 +107,7 @@ function setup(args,callback) {
 function getAndroidDevices(args,callback){
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
-  deviceDetails.getDevices();
+  deviceDetails.getDeviceDetails();
 }
 
 // function getIOSDevices(args,callback){

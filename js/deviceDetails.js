@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 const cmd = require('node-cmd');
 var Table = require('console.table');
+var logSymbols = require('log-symbols');
 
 module.exports = function DeviceDetails(arg) {
-  this.getDevices = function() {
+  this.getDeviceDetails = function() {
     arg.getUDID
     .then(arg.getDeviceName)
     .then(arg.getType)
@@ -12,7 +13,7 @@ module.exports = function DeviceDetails(arg) {
       console.table(fulfilled);
     })
     .catch(function(error){
-      console.log(error.message);
+      console.log("\n"+logSymbols.error+" "+error.message+"\n");
     });
   }
 }
