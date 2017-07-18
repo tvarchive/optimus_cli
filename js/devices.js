@@ -16,7 +16,8 @@ module.exports = function Devices(){
               `
       , function(data,err){
         if(data.length==0){
-          reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
+          reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected or'+
+          'run this command again.');
           return reject(reason);
         }
         if(err){
@@ -75,7 +76,10 @@ module.exports = function Devices(){
         var devicesProcessed = 0;
          devices.forEach(function(device){
           cmd.get(`adb -s `+ device.udid +` shell getprop ro.build.version.release`,
-              function(data){
+              function(data,err){
+                if(err){
+                  reason = new Error('Cannot get OS version.Maybe the device is not authorised.');
+                }
                 devicesProcessed++;
                 version = data.split('\n')[0].split('\r')[0];
                 device["OS version"] = "Android "+version;

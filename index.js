@@ -151,9 +151,7 @@ program
   .action(setup);
 
 program
-  .command('version')
-  .description('displays the present optimus version')
-  .action(appVersion);
+  .version(pjson.version);
 
 //when options do not match,print "help"
 program
@@ -172,5 +170,5 @@ program.parse(process.argv);
 var NO_COMMAND_SPECIFIED = program.args.length === 0;
 
 if (NO_COMMAND_SPECIFIED) {
-  program.help();
+  help();
 }
