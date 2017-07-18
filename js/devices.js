@@ -5,7 +5,7 @@ var logSymbols = require('log-symbols');
 module.exports = function Devices(){
   var devices = [];
   var deviceDetails= {};
-
+  var reason;
   this.getUDID = new Promise(
     function(resolve,reject) {
       cmd.get(
@@ -15,9 +15,12 @@ module.exports = function Devices(){
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
               `
       , function(data,err){
-        if(data.length==0 || err){
-          var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
+        if(data.length==0){
+          reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
           return reject(reason);
+        }
+        if(err){
+          callback(resolve,reject);
         }
         console.log("\n"+logSymbols.info+" List of devices connected to the system : \n");
         deviceList = data.split('\n');
