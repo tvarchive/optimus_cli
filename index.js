@@ -104,24 +104,10 @@ function setup(args,callback) {
     commands.installGradle();
 }
 
-function getAndroidDevices(args,callback){
+function getDevices(args,callback){
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
   deviceDetails.getDeviceDetails();
-}
-
-// function getIOSDevices(args,callback){
-//   var devices = new Devices();
-//   var deviceDetails = new DeviceDetails(devices);
-// }
-
-// function getAllDevices(args,callback){
-//   var devices = new Devices();
-//   var deviceDetails = new DeviceDetails(devices);
-// }
-
-function appVersion() {
-  console.log(pjson.version);
 }
 
 function help(){
@@ -144,27 +130,23 @@ program
   .description('verifies the workspace for dependencies')
   .action(doctor);
 
-
 program
   .command('setup')
   .description('sets up the optimus environment')
   .action(setup);
 
 program
-  .command('version')
-  .description('displays the present optimus version')
-  .action(appVersion);
+  .command('getdevices')
+  .description('get details of all connected devices')
+  .action(getDevices);
+
+program
+  .version(pjson.version);
 
 //when options do not match,print "help"
 program
   .option('')
   .action(help);
-
-
-program
-  .command('getandroiddevices')
-  .description('gets all the connected android devices')
-  .action(getAndroidDevices);
 
 program.parse(process.argv);
 
@@ -172,5 +154,5 @@ program.parse(process.argv);
 var NO_COMMAND_SPECIFIED = program.args.length === 0;
 
 if (NO_COMMAND_SPECIFIED) {
-  program.help();
+  help();
 }
