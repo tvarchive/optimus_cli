@@ -2,6 +2,7 @@
 const cmd = require('node-cmd');
 var Table = require('console.table');
 var logSymbols = require('log-symbols');
+var colors = require('colors/safe');
 
 module.exports = function DeviceDetails(arg) {
   this.getDeviceDetails = function() {
@@ -13,7 +14,7 @@ module.exports = function DeviceDetails(arg) {
       console.table(fulfilled);
     })
     .catch(function(error){
-      console.log("\n"+logSymbols.error+" "+error.message+"\n");
+      console.log("\n"+logSymbols.error+" "+colors.red(error.message)+"\n");
     });
   }
 }

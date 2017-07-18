@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const cmd = require('node-cmd');
 var logSymbols = require('log-symbols');
+var colors = require('colors/safe');
 
 module.exports = function Devices(){
   var devices = [];
@@ -19,7 +20,7 @@ module.exports = function Devices(){
           var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
           return reject(reason);
         }
-        console.log("\n"+logSymbols.info+" List of devices connected to the system : \n");
+        console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
         deviceList = data.split('\n');
         for(i=0; i<deviceList.length-1; i++){
              deviceDetails = {

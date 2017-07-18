@@ -117,22 +117,22 @@ function help(){
 
 program
   .command('new <project_name>')
-  .description('creates a new optimus project')
+  .description('create a new Optimus project')
   .action(createproject);
 
 program
   .command('testfeed')
-  .description('Create a testfeed for the project')
+  .description('create a testfeed for the project')
   .action(createtestfeed);
 
 program
   .command('doctor')
-  .description('verifies the workspace for dependencies')
+  .description('verify the workspace for dependencies')
   .action(doctor);
 
 program
   .command('setup')
-  .description('sets up the optimus environment')
+  .description('set up the Optimus environment')
   .action(setup);
 
 program
