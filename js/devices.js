@@ -19,7 +19,7 @@ module.exports = function Devices(){
           var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
           return reject(reason);
         }
-        console.log("\n"+logSymbols.info+" List of devices connected to the system are : \n");
+        console.log("\n"+logSymbols.info+" List of devices connected to the system : \n");
         deviceList = data.split('\n');
         for(i=0; i<deviceList.length-1; i++){
              deviceDetails = {
