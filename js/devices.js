@@ -16,9 +16,13 @@ module.exports = function Devices(){
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
               `
       , function(data,err){
-        if(data.length==0 || err){
-          var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected.');
+        if(data.length==0){
+          var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected '+
+                                 'and run this command again OR check if your adb is set properly.');
           return reject(reason);
+        }
+        if(err){
+          callback(resolve,reject);
         }
         console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
         deviceList = data.split('\n');

@@ -19,7 +19,6 @@ var express = require('express');
 var open = require('opn');
 var path = require('path');
 var fs = require('fs');
-var Table = require('console.table');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
