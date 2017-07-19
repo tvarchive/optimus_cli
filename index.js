@@ -104,9 +104,22 @@ function setup(args,callback) {
 }
 
 function getDevices(args,callback){
+  var options = process.argv.slice(3)[0];
+  console.log(options);
+  switch(options) {
+
+  case '-a' || '--android':
+
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
   deviceDetails.getDeviceDetails();
+  break;
+
+  case '-i' || '--ios':
+
+  console.log("printing ios details... ");
+  break;
+  }
 }
 
 function help(){
@@ -140,7 +153,23 @@ program
 program
   .command('getdevices')
   .description('get details of all connected devices')
-  .action(getDevices);
+  .option('-a, --android','display all connected android devices')
+  .option('-i, --ios','display all connected iOS devices')
+  .action(function(){
+    if(this.android){
+      getDevices();
+      return;
+    }
+    if(this.ios){
+      console.log("print ios devices");
+      return;
+    }
+    else{
+      console.log("print all devices");
+      getDevices();
+      return;
+    }
+  });
 
 //when options do not match,print "help"
 program
