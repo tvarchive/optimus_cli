@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const cmd = require('node-cmd');
 var logSymbols = require('log-symbols');
+var colors = require('colors/safe');
 
 module.exports = function Devices(){
   var devices = [];
@@ -16,14 +17,14 @@ module.exports = function Devices(){
               `
       , function(data,err){
         if(data.length==0){
-          reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected or'+
-          'run this command again.');
+          var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected '+
+                                 'and run this command again OR check if your adb is set properly.');
           return reject(reason);
         }
         if(err){
           callback(resolve,reject);
         }
-        console.log("\n"+logSymbols.info+" List of devices connected to the system : \n");
+        console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
         deviceList = data.split('\n');
         for(i=0; i<deviceList.length-1; i++){
              deviceDetails = {

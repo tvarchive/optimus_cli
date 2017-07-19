@@ -19,7 +19,6 @@ var express = require('express');
 var open = require('opn');
 var path = require('path');
 var fs = require('fs');
-var Table = require('console.table');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
@@ -104,24 +103,10 @@ function setup(args,callback) {
     commands.installGradle();
 }
 
-function getAndroidDevices(args,callback){
+function getDevices(args,callback){
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
   deviceDetails.getDeviceDetails();
-}
-
-// function getIOSDevices(args,callback){
-//   var devices = new Devices();
-//   var deviceDetails = new DeviceDetails(devices);
-// }
-
-// function getAllDevices(args,callback){
-//   var devices = new Devices();
-//   var deviceDetails = new DeviceDetails(devices);
-// }
-
-function appVersion() {
-  console.log(pjson.version);
 }
 
 function help(){
@@ -131,38 +116,36 @@ function help(){
 
 program
   .command('new <project_name>')
-  .description('creates a new optimus project')
+  .description('create a new Optimus project')
   .action(createproject);
 
 program
   .command('testfeed')
-  .description('Create a testfeed for the project')
+  .description('create a testfeed for the project')
   .action(createtestfeed);
 
 program
   .command('doctor')
-  .description('verifies the workspace for dependencies')
+  .description('verify the workspace for dependencies')
   .action(doctor);
-
 
 program
   .command('setup')
-  .description('sets up the optimus environment')
+  .description('set up the Optimus environment')
   .action(setup);
 
 program
   .version(pjson.version);
 
+program
+  .command('getdevices')
+  .description('get details of all connected devices')
+  .action(getDevices);
+
 //when options do not match,print "help"
 program
   .option('')
   .action(help);
-
-
-program
-  .command('getandroiddevices')
-  .description('gets all the connected android devices')
-  .action(getAndroidDevices);
 
 program.parse(process.argv);
 
