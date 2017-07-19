@@ -24,7 +24,7 @@ module.exports = function Devices(){
         if(err){
           callback(resolve,reject);
         }
-        console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
+        // console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
         deviceList = data.split('\n');
         for(i=0; i<deviceList.length-1; i++){
              deviceDetails = {
@@ -80,6 +80,11 @@ module.exports = function Devices(){
               function(data,err){
                 if(err){
                   reason = new Error('Cannot get OS version.Maybe the device is not authorised.');
+                  reject(reason);
+                }
+                if(data.startsWith("Android adb server version")){
+                  reason = new Error('Cannot get OS version.Please run this command again.');
+                  reject(reason);
                 }
                 devicesProcessed++;
                 version = data.split('\n')[0].split('\r')[0];

@@ -11,6 +11,7 @@ module.exports = function DeviceDetails(arg) {
     .then(arg.getType)
     .then(arg.getOSVersion)
     .then(function(fulfilled) {
+      console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
       console.table(fulfilled);
     })
     .catch(function(error){
