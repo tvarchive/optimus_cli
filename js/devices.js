@@ -21,10 +21,6 @@ module.exports = function Devices(){
                                  'and run this command again OR check if your adb is set properly.');
           return reject(reason);
         }
-        if(err){
-          callback(resolve,reject);
-        }
-        // console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
         deviceList = data.split('\n');
         for(i=0; i<deviceList.length-1; i++){
              deviceDetails = {

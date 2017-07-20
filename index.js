@@ -105,17 +105,17 @@ function setup(args,callback) {
 
 function getDevices(args,callback){
   var options = process.argv.slice(3)[0];
-  console.log(options);
+
   switch(options) {
 
-  case '-a' || '--android':
+  case '-a':
 
   var devices = new Devices();
   var deviceDetails = new DeviceDetails(devices);
   deviceDetails.getDeviceDetails();
   break;
 
-  case '-i' || '--ios':
+  case '-i':
 
   console.log("printing ios details... ");
   break;
