@@ -2,8 +2,9 @@
 var program = require('commander');
 const http = require('http');
 var Commands = require('./js/commands');
-var DeviceDetails = require('./js/deviceDetails');
-var Devices = require('./js/devices');
+var DeviceDetails = require('./js/DeviceDetails');
+var AndroidDevice = require('./js/AndroidDevice');
+var IOSDevice = require('./js/IOSDevice');
 var Setup = require('./js/setup');
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -103,22 +104,49 @@ function setup(args,callback) {
     commands.installGradle();
 }
 
-function getDevices(args,callback){
+// function getAllDeviceDetails(args,callback){
+//
+// }
+//
+// var getAndroidDeviceDetails = new Promise(
+//   function(resolve,reject){
+//
+//   }
+// )
+//
+// this.androidDevice = function getAndroidDeviceDetails(args,callback){
+//   var androidDevice = new AndroidDevice();
+//   var deviceDetails = new DeviceDetails(androidDevice);
+//   deviceDetails.getAndroidDeviceDetails();
+// };
+//
+// function getIOSDeviceDetails(args,callback) = function{
+//
+//   var iosDevice = new IOSDevice();
+//   var deviceDetails = new DeviceDetails(iosDevice);
+//   deviceDetails.getIOSDeviceDetails();
+// }
+
+function getSpecificDeviceDetails(args,callback){
+
   var options = process.argv.slice(3)[0];
 
   switch(options) {
 
   case '-a':
-
-  var devices = new Devices();
-  var deviceDetails = new DeviceDetails(devices);
-  deviceDetails.getDeviceDetails();
+  case '--android':
+  var androidDevice = new AndroidDevice();
+  var deviceDetails = new DeviceDetails(androidDevice);
+  deviceDetails.getAndroidDeviceDetails();
   break;
 
   case '-i':
-
-  console.log("printing ios details... ");
+  case '--ios':
+  var iosDevice = new IOSDevice();
+  var deviceDetails = new DeviceDetails(iosDevice);
+  deviceDetails.getIOSDeviceDetails();
   break;
+
   }
 }
 
@@ -157,16 +185,15 @@ program
   .option('-i, --ios','display all connected iOS devices')
   .action(function(){
     if(this.android){
-      getDevices();
+      getSpecificDeviceDetails();
       return;
     }
     if(this.ios){
-      console.log("print ios devices");
+      getSpecificDeviceDetails()
       return;
     }
     else{
-      console.log("print all devices");
-      getDevices();
+      // getAllDeviceDetails();
       return;
     }
   });

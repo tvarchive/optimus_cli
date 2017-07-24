@@ -3,7 +3,7 @@ const cmd = require('node-cmd');
 var logSymbols = require('log-symbols');
 var colors = require('colors/safe');
 
-module.exports = function Devices(){
+module.exports = function AndroidDevice(){
   var devices = [];
   var deviceDetails= {};
   var reason;
@@ -15,9 +15,10 @@ module.exports = function Devices(){
                cat devicesList | grep -E -o "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{1,4}"
                cat devicesList | grep -E -o "([a-zA-Z0-9]){7,8}\\s\\s"
               `
-      , function(data,err){
+      , function(data){
         if(data.length==0){
-          var reason = new Error('No devices(s) found ! Please connect your device(s) properly if not connected '+
+          cmd.run('rm devicesList');
+          var reason = new Error('No Android devices(s) found ! Please connect your device(s) properly if not connected '+
                                  'and run this command again OR check if your adb is set properly.');
           return reject(reason);
         }

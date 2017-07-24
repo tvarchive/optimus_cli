@@ -6,18 +6,32 @@ var colors = require('colors/safe');
 
 module.exports = function DeviceDetails(arg) {
   var details;
-  this.getDeviceDetails = function() {
+  this.getAndroidDeviceDetails = function() {
     arg.getUDID
     .then(arg.getDeviceName)
     .then(arg.getType)
     .then(arg.getOSVersion)
     .then(function(fulfilled) {
       details = fulfilled;
-      console.log("\n"+logSymbols.info+colors.green(" List of devices connected to the system : \n"));
+      console.log("\n"+logSymbols.info+colors.green(" List of Android devices connected to the system : \n"));
       console.table(fulfilled);
     })
     .catch(function(error){
       console.log("\n"+logSymbols.error+" "+colors.red(error.message)+"\n");
     });
   }
+
+    this.getIOSDeviceDetails = function() {
+      arg.getUDID
+        .then(arg.getType)
+        .then(arg.getDeviceName)
+        .then(arg.getOSVersion)
+        .then(function(fulfilled) {
+          console.log("\n"+logSymbols.info+colors.green(" List of iOS devices connected to the system : \n"));
+          console.table(fulfilled);
+        })
+        .catch(function(error){
+          console.log("\n"+logSymbols.error+" "+colors.red(error.message)+"\n");
+        });
+    }
 }
