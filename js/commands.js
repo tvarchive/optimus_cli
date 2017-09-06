@@ -44,7 +44,7 @@ module.exports = function Commands(){
             break;
             case "win32":
             console.log(logSymbols.warning,colors.yellow('Installing Java..'));
-              cmd.get('choco install jdk8',function(data,err) {
+              cmd.get('choco install jdk8 -y',function(data,err) {
               error = err;
               if(!err) {
                 console.log(logSymbols.success,'Installed java successfully');
@@ -127,7 +127,7 @@ this.verifyMongoDB = function() {
           });
             break;
             case "win32":
-            cmd.get('choco install mongodb', function(data,err) {
+            cmd.get('choco install mongodb -y', function(data,err) {
               if(!err) {
                 console.log(logSymbols.success,'Installed MongoDB successfully');
               } else {
@@ -169,7 +169,7 @@ this.verifyMongoDB = function() {
           })
             break;
             case "win32":
-            cmd.get('choco install adb',function(data,err) {
+            cmd.get('choco install adb -y',function(data,err) {
               error = err;
               if(!err) {
                 console.log(logSymbols.success,'Installed, android platform tools successfully.');
@@ -270,7 +270,7 @@ this.verifyMongoDB = function() {
           })
             break;
             case "win32":
-            cmd.get('choco install gradle',function(data,err) {
+            cmd.get('choco install gradle -y',function(data,err) {
               error = err;
               if(!err) {
                 console.log(logSymbols.success,'Installed gradle successfully.');
