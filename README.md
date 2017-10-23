@@ -10,6 +10,11 @@ A cli for Optimus
 npm install -g optimus-cli
 ```
 
+Note: If the installation fails on your machine, you might have to update your libssh2 using below command and try again.
+```
+brew install libgcrypt
+```
+
 ## Usage
 To Verify if you system is ready for using Optimus
 
