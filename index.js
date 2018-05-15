@@ -18,11 +18,13 @@ var express = require('express');
 var open = require('opn');
 var path = require('path');
 var fs = require('fs');
+var Update = require('./js/update');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
 inits.init(function(callback) {
   new Setup().instDeps();
+  new Update().updateOptimus();
   callback();
 });
 
@@ -83,6 +85,7 @@ function createtestfeed(args,callback) {
 }
 
 function doctor(args,callback) {
+    new Update().updateOptimus();
     var commands = new Commands();
     commands.verifyJava();
     commands.verifyAppium();

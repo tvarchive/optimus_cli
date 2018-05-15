@@ -159,7 +159,12 @@ this.verifyMongoDB = function() {
         console.log(logSymbols.warning,'Installing Android platform tools..');
         switch (os.platform()) {
           case "darwin":case "linux":
-          cmd.get('brew install android-platform-tools',function(data,err) {
+          cmd.get('brew tap caskroom/cask',function(data,err) {
+            if(!err) {
+              console.log(logSymbols.success,'Tapped into caskroomm installing android-platform-tools');
+            }
+          })
+          cmd.get('brew cask install android-platform-tools',function(data,err) {
             error = err;
             if(!err) {
               console.log(logSymbols.success,'Installed, android platform tools successfully.');
@@ -224,9 +229,9 @@ this.verifyMongoDB = function() {
                     if(!err) {
                       console.log(logSymbols.success,'Installed FBSimctl Successfully');
                     } else {
-                      console.log(logSymbols.error, 'Failed to install FBSimctl, please check if you have XCode version 8.2 installed and try again');
+                      console.log(logSymbols.info, 'Failed to install FBSimctl, FBsimctl is not supported for xcode 8 and above, you can install it manually from here https://github.com/facebook/FBSimulatorControl/tree/master/fbsimctl');
                     }
-              });
+                    });
             }
             });
             }
