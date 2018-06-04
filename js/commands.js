@@ -127,7 +127,7 @@ this.verifyMongoDB = function() {
           });
             break;
             case "win32":
-            cmd.get("choco install mongodb -y --install-arguments=\"'SHOULD_INSTALL_COMPASS=false'\"", function(data,err) {
+            cmd.get('choco install mongodb -y --install-arguments="'+"'SHOULD_INSTALL_COMPASS=false'"+'"', function(data,err) {
               if(!err) {
                 console.log(logSymbols.success,'Installed MongoDB successfully');
               } else {
