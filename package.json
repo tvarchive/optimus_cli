@@ -1,6 +1,6 @@
 {
   "name": "optimus-cli",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "CLI for Optimus project",
   "main": "index.js",
   "glob": "*",
@@ -25,6 +25,7 @@
     "express": "^4.16.2",
     "http-server": "^0.9.0",
     "inits": "^1.6.2",
+    "ip": "^1.1.5",
     "log-symbols": "^1.0.2",
     "mkdirp": "^0.5.1",
     "ngclipboard": "^1.1.2",
@@ -33,6 +34,7 @@
     "opn": "^4.0.2",
     "path": "^0.12.7",
     "progress": "^2.0.0",
+    "universal-analytics": "^0.4.17",
     "update-notifier": "^2.3.0"
   }
 }

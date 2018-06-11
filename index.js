@@ -19,6 +19,9 @@ var open = require('opn');
 var path = require('path');
 var fs = require('fs');
 var Update = require('./js/update');
+var analytics = require('universal-analytics');
+var visitor = analytics('UA-120621204-1');
+var ip = require('ip');
 
 inits.options.logTimes=false;
 inits.options.showErrors=false;
@@ -74,7 +77,7 @@ function createproject(args,callback) {
      console.log(colors.red('Error: Project '+ projectfolder+' is already present in this directory. Create project with a different name.'));
    }
   });
-
+  visitor.event(ip.address(),projectfolder).send()
 }
 
 function createtestfeed(args,callback) {
