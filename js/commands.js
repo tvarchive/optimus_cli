@@ -4,8 +4,7 @@ var logSymbols = require('log-symbols');
 var os = require('os');
 var ProgressBar = require('progress');
 var colors = require('colors/safe');
-var analytics = require('universal-analytics');
-var visitor = analytics('UA-120621204-1');
+
 
 module.exports = function Commands(){
   var error;

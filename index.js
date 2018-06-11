@@ -77,10 +77,12 @@ function createproject(args,callback) {
      console.log(colors.red('Error: Project '+ projectfolder+' is already present in this directory. Create project with a different name.'));
    }
   });
+  visitor.pageview("createProject",projectfolder,ip.address()).send()
   visitor.event(ip.address(),projectfolder).send()
 }
 
 function createtestfeed(args,callback) {
+  visitor.pageview("createtestfeed",ip.address()).send()
   var app = express();
   app.use(express.static(path.join(__dirname, 'web')))
   app.listen(3000);
@@ -88,6 +90,7 @@ function createtestfeed(args,callback) {
 }
 
 function doctor(args,callback) {
+  visitor.pageview("doctor",ip.address()).send()
     new Update().updateOptimus();
     var commands = new Commands();
     commands.verifyJava();
@@ -99,6 +102,7 @@ function doctor(args,callback) {
 }
 
 function setup(args,callback) {
+  visitor.pageview("setup",ip.address()).send()
     var commands = new Commands();
     commands.installJava();
     commands.installAppium();
@@ -109,22 +113,37 @@ function setup(args,callback) {
 }
 
 function getAndroidDevices(args,callback) {
+  visitor.pageview("getAndroidDevices",ip.address()).send()
   var commands = new Devices();
   commands.getAndroidDevices();
 }
 
 function getIOSDevices(args,callback) {
+  visitor.pageview("getiOSDevices",ip.address()).send()
   var commands = new Devices();
   commands.getIOSDevices();
 }
 
 function getAllConnectedDevices(args,callback) {
+  visitor.pageview("getAllConnectedDevices",ip.address()).send()
   var commands = new Devices();
   commands.getAllConnectedDevices();
 }
 
 function appVersion() {
+  visitor.pageview("appVersion",ip.address()).send()
   console.log(pjson.version);
+}
+
+function track(args, callback) {
+  var projectfolder;
+  if(args.includes(" ")) {
+    projectfolder = args.replace(" ","");
+  } else {
+   projectfolder = args;
+  }
+  visitor.pageview("createProject",projectfolder,ip.address()).send()
+  visitor.event(ip.address(),projectfolder).send()
 }
 
 function help(){
@@ -176,6 +195,11 @@ program
   .command('getallconnecteddevices')
   .description('gets all the connected devices')
   .action(getAllConnectedDevices);
+
+program
+  .command('track')
+  .description('gets all the connected devices')
+  .action(track);
 
 // program
 //   .command('getdevices')
