@@ -744,7 +744,7 @@ static int loose_lock(git_filebuf *file, refdb_fs_backend *backend, const char *
 
 	assert(file && backend && name);
 
-	if (!git_path_isvalid(backend->repo, name, GIT_PATH_REJECT_FILESYSTEM_DEFAULTS)) {
+	if (!git_path_isvalid(backend->repo, name, 0, GIT_PATH_REJECT_FILESYSTEM_DEFAULTS)) {
 		giterr_set(GITERR_INVALID, "invalid reference name '%s'", name);
 		return GIT_EINVALIDSPEC;
 	}
@@ -1603,6 +1603,8 @@ static int create_new_reflog_file(const char *filepath)
 
 GIT_INLINE(int) retrieve_reflog_path(git_buf *path, git_repository *repo, const char *name)
 {
+	if (strcmp(name, GIT_HEAD_FILE) == 0)
+		return git_buf_join3(path, '/', repo->gitdir, GIT_REFLOG_DIR, name);
 	return git_buf_join3(path, '/', repo->commondir, GIT_REFLOG_DIR, name);
 }
 
@@ -1740,7 +1742,7 @@ static int lock_reflog(git_filebuf *file, refdb_fs_backend *backend, const char 
 
 	repo = backend->repo;
 
-	if (!git_path_isvalid(backend->repo, refname, GIT_PATH_REJECT_FILESYSTEM_DEFAULTS)) {
+	if (!git_path_isvalid(backend->repo, refname, 0, GIT_PATH_REJECT_FILESYSTEM_DEFAULTS)) {
 		giterr_set(GITERR_INVALID, "invalid reference name '%s'", refname);
 		return GIT_EINVALIDSPEC;
 	}
