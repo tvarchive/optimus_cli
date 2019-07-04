@@ -1,6 +1,6 @@
 {
   "name": "optimus-cli",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "CLI for Optimus project",
   "main": "index.js",
   "glob": "*",
@@ -29,7 +29,7 @@
     "log-symbols": "^2.2.0",
     "mkdirp": "^0.5.1",
     "ngclipboard": "^2.0.0",
-    "node-cmd": "^3.0.0",
+    "node-cmd": "^2.0.0",
     "nodegit": "^0.24.1",
     "opn": "^5.4.0",
     "path": "^0.12.7",

@@ -199,14 +199,6 @@ this.verifyMongoDB = function() {
           console.log(logSymbols.info,'Verifying if xcode is installed');
           if(!err) {
             console.log(logSymbols.success,'Found xcode on this machine.');
-            console.log(logSymbols.info,"Checking if FBSimctl is installed");
-            cmd.get('fbsimctl list',function(data,err) {
-              if(!err) {
-                console.log(logSymbols.success,'FBSimctl is installed');
-              } else {
-                console.log(logSymbols.error, 'FBSimctl is not installed');
-              }
-              });
               } else {
             console.log(logSymbols.error,colors.red('Xcode is not installed, install it manually!!'));
             }
@@ -221,22 +213,7 @@ this.verifyMongoDB = function() {
       case "darwin":
       cmd.get('xcodebuild -version',function(data,err) {
         if(!err) {
-          cmd.get('fbsimctl list',function(data,err) {
-            if(err) {
-              console.log(logSymbols.warning, 'Installing FBSimctl...');
-              cmd.get('brew tap facebook/fb',function(data, err) {
-                if(!err) {
-                  cmd.get('brew install fbsimctl',function(data,err) {
-                    if(!err) {
-                      console.log(logSymbols.success,'Installed FBSimctl Successfully');
-                    } else {
-                      console.log(logSymbols.info, 'Failed to install FBSimctl, FBsimctl is not supported for xcode 8 and above, you can install it manually from here https://github.com/facebook/FBSimulatorControl/tree/master/fbsimctl');
-                    }
-                    });
-            }
-            });
-            }
-          })
+        
         }
       });
         break;
